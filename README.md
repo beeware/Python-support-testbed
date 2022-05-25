@@ -1,5 +1,4 @@
-Python Support Testbed
-======================
+# Python Support Testbed
 
 This is a testbed application that can be used to do basic verification checks
 of the support package builds used by BeeWare (Python-Apple-support and
@@ -15,15 +14,13 @@ Before running, ensure that the template and support package paths point at the
 builds you want to test. The paths committed in the repo assume that you have a
 directory layout that looks something like:
 
-- <your projects folder>
+- (your projects folder)
   - support
     - Python-Apple-support
       - dist
-        - <tarballs>
         - ...
     - Python-Android-support
       - dist
-        - <zip archives>
         - ...
   - templates
     - briefcase-Android-gradle-template

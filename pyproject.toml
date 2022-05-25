@@ -41,6 +41,8 @@ support_package = "../Python-Apple-support/dist/Python-3.10-iOS-support.custom.t
 [tool.briefcase.app.testbed.android]
 requires = [
     "rubicon-java",
+    # Android doesn't provide the zoneinfo TZ database; use the Python provided one
+    "tzdata",
 ]
 support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"

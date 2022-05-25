@@ -122,7 +122,6 @@ def test_bzip2():
     )
 
 
-@skipIf(hasattr(sys, 'getandroidapilevel'), "DBM picks up NDBM by default on Android")
 def test_dbm():
     "The DBM module is accessible"
     import dbm
@@ -134,7 +133,13 @@ def test_dbm():
 
             assert_(db['hello'] == b'world')
     finally:
-        os.remove(f'{cache_name}.db')
+        # Remove any file extension that might have been used.
+        for extension in ['db', 'bak', 'dat', 'dir']:
+            try:
+                os.remove(f'{cache_name}.{extension}')
+            except FileNotFoundError:
+                # If the file didn't exist, don't worry.
+                pass
 
 
 def test_dbm_dumb():
@@ -346,7 +351,6 @@ def test_xz():
     )
 
 
-# @skipIf(hasattr(sys, 'getandroidapilevel'), "zlib not available on Android")
 def test_zlib():
     "zlib compression works"
     import zlib
@@ -358,7 +362,6 @@ def test_zlib():
 
 
 @skipIf(sys.version_info < (3, 9), "zoneinfo introduced in Python 3.9")
-@skipIf(hasattr(sys, 'getandroidapilevel'), "Zoneinfo not available on Android")
 def test_zoneinfo():
     "Zoneinfo database is available"
     from zoneinfo import ZoneInfo

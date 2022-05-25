@@ -2,8 +2,25 @@
 # macOS specific tests
 ###########################################################################
 import importlib
+import sys
 
 from .utils import assert_
+
+
+def exit(failures):
+    sys.exit(failures)
+
+
+def test_ctypes():
+    "The FFI module has been compiled, and ctypes works on ObjC objects"
+    from rubicon.objc import ObjCClass
+
+    NSURL = ObjCClass("NSURL")
+
+    base = NSURL.URLWithString("https://beeware.org/")
+    full = NSURL.URLWithString("contributing", relativeToURL=base)
+    absolute = full.absoluteURL
+    assert_(absolute.description == "https://beeware.org/contributing")
 
 
 def test_scproxy():

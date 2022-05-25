@@ -29,8 +29,12 @@ def main():
 
     # Discover the platform-specific tests
     try:
-        module = importlib.import_module(f".{sys.platform}", "testbed")
-        suite.extend(discover_tests(module))
+        if hasattr(sys, 'getandroidapilevel'):
+            module_path = '.android'
+        else:
+            module_path = f".{sys.platform}"
+        platform_module = importlib.import_module(module_path, "testbed")
+        suite.extend(discover_tests(platform_module))
     except ModuleNotFoundError:
         print(f"No platform-specific tests for {sys.platform}")
 
@@ -60,5 +64,5 @@ def main():
             print("-" * 80)
 
     print("=" * 80)
-    print(f"Tests complete; {tests} tests, {skipped} skipped, {failures} failures.")
-    sys.exit(failures)
+    print(f"Tests complete; {tests} tests ({skipped} skipped); {failures} failures.")
+    platform_module.exit(failures)

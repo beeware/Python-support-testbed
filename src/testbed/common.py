@@ -71,7 +71,6 @@ def test_stdlib_modules():
         "_queue",
         "_random",
         "_socket",
-        "_statistics",
         "_struct",
         "array",
         "binascii",
@@ -85,15 +84,23 @@ def test_stdlib_modules():
         "syslog",
         "termios",
         "unicodedata",
-        "zlib",
         # Scheduled for deprecation
         "_crypt",
         "audioop",
     ]
 
+    # Modules added in 3.8
+    if sys.version_info >= (3, 8):
+        all_modules.extend(["_statistics"])
+
     # Modules added in 3.11
     if sys.version_info >= (3, 11):
         all_modules.extend(['_typing'])
+
+    # Modules that are known to not exist on Android
+    if hasattr(sys, 'getandroidapilevel'):
+        all_modules.remove('grp')
+        all_modules.remove('_crypt')
 
     for module in all_modules:
         try:
@@ -115,17 +122,7 @@ def test_bzip2():
     )
 
 
-def test_ctypes():
-    "The FFI module has been compiled, and ctypes works on ObjC objects"
-    from rubicon.objc import ObjCClass
-
-    NSURL = ObjCClass("NSURL")
-
-    base = NSURL.URLWithString("https://beeware.org/")
-    full = NSURL.URLWithString("contributing", relativeToURL=base)
-    absolute = full.absoluteURL
-    assert_(absolute.description == "https://beeware.org/contributing")
-
+@skipIf(hasattr(sys, 'getandroidapilevel'), "DBM picks up NDBM by default on Android")
 def test_dbm():
     "The DBM module is accessible"
     import dbm
@@ -156,6 +153,7 @@ def test_dbm_dumb():
         os.remove(f'{cache_name}.dir')
 
 
+@skipIf(hasattr(sys, 'getandroidapilevel'), "NDBM not available on Android")
 def test_dbm_ndbm():
     "The ndbm DBM module has been compiled and works"
     from dbm import ndbm
@@ -348,7 +346,19 @@ def test_xz():
     )
 
 
+# @skipIf(hasattr(sys, 'getandroidapilevel'), "zlib not available on Android")
+def test_zlib():
+    "zlib compression works"
+    import zlib
+
+    data = zlib.compress(b"Hello world")
+    assert_(
+        data == b"x\x9c\xf3H\xcd\xc9\xc9W(\xcf/\xcaI\x01\x00\x18\xab\x04="
+    )
+
+
 @skipIf(sys.version_info < (3, 9), "zoneinfo introduced in Python 3.9")
+@skipIf(hasattr(sys, 'getandroidapilevel'), "Zoneinfo not available on Android")
 def test_zoneinfo():
     "Zoneinfo database is available"
     from zoneinfo import ZoneInfo

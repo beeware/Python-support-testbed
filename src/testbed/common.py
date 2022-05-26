@@ -102,6 +102,12 @@ def test_stdlib_modules():
         all_modules.remove('grp')
         all_modules.remove('_crypt')
 
+    # Modules that are shadows of pure python modules, but should be compiled
+    all_modules.extend([
+        "_elementtree",
+        "pyexpat",
+    ])
+
     for module in all_modules:
         try:
             importlib.import_module(module)

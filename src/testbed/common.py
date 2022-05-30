@@ -131,8 +131,9 @@ def test_bzip2():
 def test_dbm():
     "The DBM module is accessible"
     import dbm
+    import tempfile
 
-    cache_name = f'{os.path.dirname(__file__)}/dbm'
+    cache_name = f'{tempfile.mkdtemp()}/dbm'
     try:
         with dbm.open(cache_name, 'c') as db:
             db['hello'] = 'world'
@@ -151,8 +152,9 @@ def test_dbm():
 def test_dbm_dumb():
     "The dumb DBM module has been compiled and works"
     from dbm import dumb as ddbm
+    import tempfile
 
-    cache_name = f'{os.path.dirname(__file__)}/ddbm'
+    cache_name = f'{tempfile.mkdtemp()}/ddbm'
     try:
         with ddbm.open(cache_name, 'c') as db:
             db['hello'] = 'world'
@@ -168,8 +170,9 @@ def test_dbm_dumb():
 def test_dbm_ndbm():
     "The ndbm DBM module has been compiled and works"
     from dbm import ndbm
+    import tempfile
 
-    cache_name = f'{os.path.dirname(__file__)}/ndbm'
+    cache_name = f'{tempfile.mkdtemp()}/ndbm'
     try:
         with ndbm.open(cache_name, 'c') as db:
             db['hello'] = 'world'

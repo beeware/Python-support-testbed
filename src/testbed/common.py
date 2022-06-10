@@ -134,19 +134,10 @@ def test_dbm():
     import tempfile
 
     cache_name = f'{tempfile.mkdtemp()}/dbm'
-    try:
-        with dbm.open(cache_name, 'c') as db:
-            db['hello'] = 'world'
+    with dbm.open(cache_name, 'c') as db:
+        db['hello'] = 'world'
 
-            assert_(db['hello'] == b'world')
-    finally:
-        # Remove any file extension that might have been used.
-        for extension in ['db', 'bak', 'dat', 'dir']:
-            try:
-                os.remove(f'{cache_name}.{extension}')
-            except FileNotFoundError:
-                # If the file didn't exist, don't worry.
-                pass
+        assert_(db['hello'] == b'world')
 
 
 def test_dbm_dumb():
@@ -155,15 +146,10 @@ def test_dbm_dumb():
     import tempfile
 
     cache_name = f'{tempfile.mkdtemp()}/ddbm'
-    try:
-        with ddbm.open(cache_name, 'c') as db:
-            db['hello'] = 'world'
+    with ddbm.open(cache_name, 'c') as db:
+        db['hello'] = 'world'
 
-            assert_(db['hello'] == b'world')
-    finally:
-        os.remove(f'{cache_name}.bak')
-        os.remove(f'{cache_name}.dat')
-        os.remove(f'{cache_name}.dir')
+        assert_(db['hello'] == b'world')
 
 
 @skipIf(hasattr(sys, 'getandroidapilevel'), "NDBM not available on Android")
@@ -173,13 +159,10 @@ def test_dbm_ndbm():
     import tempfile
 
     cache_name = f'{tempfile.mkdtemp()}/ndbm'
-    try:
-        with ndbm.open(cache_name, 'c') as db:
-            db['hello'] = 'world'
+    with ndbm.open(cache_name, 'c') as db:
+        db['hello'] = 'world'
 
-            assert_(db['hello'] == b'world')
-    finally:
-        os.remove(f'{cache_name}.db')
+        assert_(db['hello'] == b'world')
 
 
 def test_decimal():

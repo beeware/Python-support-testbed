@@ -24,7 +24,9 @@ support_package = "../Python-Apple-support/dist/Python-3.10-macOS-support.custom
 # template = "../../templates/briefcase-macOS-Xcode-template"
 
 [tool.briefcase.app.testbed.linux]
-supported = false
+requires=[]
+support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
+template = "../../templates/briefcase-linux-appimage-template"
 
 [tool.briefcase.app.testbed.windows]
 supported = false

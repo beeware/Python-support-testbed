@@ -24,9 +24,24 @@ support_package = "../Python-Apple-support/dist/Python-3.10-macOS-support.custom
 # template = "../../templates/briefcase-macOS-Xcode-template"
 
 [tool.briefcase.app.testbed.linux]
-requires=[]
+requires=[
+    'pycairo',
+    'pygobject',
+    'pillow',
+]
+system_requires = [
+    # Required for GTK/PyGObject tests
+    'gir1.2-gtk-3.0',
+    'libgirepository1.0-dev',
+    # Required for pycairo
+    'libcairo2-dev',
+    # Required for Pillow
+    'libjpeg-dev',
+    'libpng-dev',
+    'libtiff-dev',
+]
 support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
-template = "../../templates/briefcase-linux-appimage-template"
+# template = "../../templates/briefcase-linux-appimage-template"
 
 [tool.briefcase.app.testbed.windows]
 supported = false

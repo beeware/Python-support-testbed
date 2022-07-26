@@ -29,6 +29,12 @@ requires=[
     'pygobject',
     'pillow',
 ]
+
+[tool.briefcase.app.testbed.linux.appimage]
+requires=[
+    '--no-binary', 'pillow'
+]
+
 system_requires = [
     # Required for GTK/PyGObject tests
     'gir1.2-gtk-3.0',
@@ -40,8 +46,17 @@ system_requires = [
     'libpng-dev',
     'libtiff-dev',
 ]
+
+linuxdeploy_plugins = [
+    'DEPLOY_GTK_VERSION=3 gtk',
+]
+
 support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
 # template = "../../templates/briefcase-linux-appimage-template"
+
+[tool.briefcase.app.testbed.linux.flatpak]
+
+# template = "../../templates/briefcase-linux-flatpak-template"
 
 [tool.briefcase.app.testbed.windows]
 supported = false

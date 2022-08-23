@@ -12,9 +12,7 @@ from .utils import assert_, skipIf
 def test_bootstrap_modules():
     "All the bootstrap modules are importable"
     missing = []
-
-    # The list of bootstrap modules that don't have explicit tests.
-    for module in [
+    all_modules = [
         '_abc',
         '_codecs',
         '_collections',
@@ -36,7 +34,14 @@ def test_bootstrap_modules():
         'posix',
         'pwd',
         'time',
-    ]:
+    ]
+
+    # Modules that are disabled on iOS
+    if sys.platform == "ios":
+        all_modules.remove('pwd')
+
+    # The list of bootstrap modules that don't have explicit tests.
+    for module in all_modules:
         try:
             importlib.import_module(module)
         except ModuleNotFoundError:
@@ -97,10 +102,17 @@ def test_stdlib_modules():
     if sys.version_info >= (3, 11):
         all_modules.extend(['_typing'])
 
-    # Modules that are known to not exist on Android
+    # Modules that do not exist on Android
     if hasattr(sys, 'getandroidapilevel'):
         all_modules.remove('grp')
         all_modules.remove('_crypt')
+
+    # Modules that do not exist on iOS
+    if sys.platform == 'ios':
+        all_modules.remove("_multiprocessing")
+        all_modules.remove("_posixsubprocess")
+        all_modules.remove("grp")
+        all_modules.remove("syslog")
 
     # Modules that are shadows of pure python modules, but should be compiled
     all_modules.extend([

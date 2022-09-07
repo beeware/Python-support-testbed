@@ -13,6 +13,7 @@ description = "A testbed for the Apple Support packages."
 icon = "src/testbed/resources/testbed"
 sources = ['src/testbed']
 requires = [
+    "lru_dict==1.1.6",
 ]
 
 [tool.briefcase.app.testbed.macOS]

@@ -6,7 +6,7 @@ import platform
 import sys
 import traceback
 
-from . import common, utils
+from . import common, thirdparty, utils
 
 
 def discover_tests(module):
@@ -37,6 +37,9 @@ def main():
         suite.extend(discover_tests(platform_module))
     except ModuleNotFoundError:
         print(f"No platform-specific tests for {sys.platform}")
+
+    # Add the tests for third-party modules.
+    suite.extend(discover_tests(thirdparty))
 
     # Run the suite
     failures = 0

@@ -87,18 +87,3 @@ def test_cairo():
 
     surface = cairo.ImageSurface(cairo.Format.ARGB32, 100, 200)
     assert_(surface.get_width() == 100)
-
-
-def test_pillow():
-    "Pillow can be used to load images"
-    from PIL import Image
-
-    for extension in ['png', 'jpg']:
-        image = Image.open(
-            os.path.join(
-                os.path.dirname(__file__),
-                "resources",
-                f"test-pattern.{extension}"
-            )
-        )
-        assert_(image.size == (1366, 768))

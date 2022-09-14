@@ -13,7 +13,8 @@ description = "A testbed for the Apple Support packages."
 icon = "src/testbed/resources/testbed"
 sources = ['src/testbed']
 requires = [
-    "lru_dict==1.1.6",
+    "lru_dict",
+    "pillow",
 ]
 
 [tool.briefcase.app.testbed.macOS]
@@ -28,7 +29,6 @@ support_package = "../Python-Apple-support/dist/Python-3.10-macOS-support.custom
 requires=[
     'pycairo',
     'pygobject',
-    'pillow',
 ]
 
 [tool.briefcase.app.testbed.linux.appimage]

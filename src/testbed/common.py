@@ -373,20 +373,3 @@ def test_zoneinfo():
 
     dt = datetime(2022, 5, 4, 13, 40, 42, tzinfo=ZoneInfo("Australia/Perth"))
     assert_(str(dt) == "2022-05-04 13:40:42+08:00")
-
-
-def test_lru_dict():
-    "The LRUDict binary module can be used"
-    from lru import LRU
-    lru_dict = LRU(5)
-
-    # Add 10 items
-    for i in range(10):
-        lru_dict[f"item_{i}"] = i
-
-    # Items 0-4 have been evicted
-    for i in range(5):
-        assert_(f"item_{i}" not in lru_dict)
-    # Items 5-9 are still there
-    for i in range(5, 10):
-        assert_(lru_dict[f"item_{i}"] == i)

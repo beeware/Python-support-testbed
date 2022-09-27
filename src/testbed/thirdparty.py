@@ -2,13 +2,16 @@
 # Tests of third-party modules
 ###########################################################################
 import os
+import sys
 
-from .utils import assert_
+from .utils import assert_, skipIf
 
 
+@skipIf(sys.platform == "win32", "cffi not available on windows")
 def test_cffi():
     "CFFI can be used as an alternative FFI interface"
     from cffi import FFI
+
     ffi = FFI()
     ffi.cdef("size_t strlen(char *str);")
     lib = ffi.dlopen(None)
@@ -115,11 +118,12 @@ def test_pandas():
     # Another high profile package, with a dependency on numpy
     df = DataFrame([("alpha", 1), ("bravo", 2), ("charlie", 3)],
                     columns=["Letter", "Number"])
+
     assert_(
         (
             ",Letter,Number\n"
             "0,alpha,1\n"
             "1,bravo,2\n"
             "2,charlie,3\n"
-        ) == df.to_csv()
+        ) == df.to_csv(lineterminator="\n")
     )

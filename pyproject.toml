@@ -67,7 +67,17 @@ linuxdeploy_plugins = [
 # template = "../../templates/briefcase-linux-flatpak-template"
 
 [tool.briefcase.app.testbed.windows]
-supported = false
+requires = [
+    "pythonnet>=3.0.0rc6",
+    # Windows doesn't provide the zoneinfo TZ database; use the Python provided one
+    "tzdata",
+]
+
+[tool.briefcase.app.testbed.windows.app]
+# template = "../../templates/briefcase-windows-app-template"
+
+[tool.briefcase.app.testbed.windows.VisualStudio]
+# template = "../../templates/briefcase-windows-VisualStudio-template"
 
 # Mobile deployments
 [tool.briefcase.app.testbed.iOS]

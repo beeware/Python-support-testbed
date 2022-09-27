@@ -3,6 +3,7 @@
 ###########################################################################
 import os
 import sys
+import warnings
 
 from .utils import assert_, skipIf
 
@@ -119,11 +120,15 @@ def test_pandas():
     df = DataFrame([("alpha", 1), ("bravo", 2), ("charlie", 3)],
                     columns=["Letter", "Number"])
 
-    assert_(
-        (
-            ",Letter,Number\n"
-            "0,alpha,1\n"
-            "1,bravo,2\n"
-            "2,charlie,3\n"
-        ) == df.to_csv(lineterminator="\n")
-    )
+    with warnings.catch_warnings():
+        # Pandas 1.5 changed the `line_terminator` argument to `lineterminator`
+        warnings.filterwarnings("ignore", category=FutureWarning)
+
+        assert_(
+            (
+                ",Letter,Number\n"
+                "0,alpha,1\n"
+                "1,bravo,2\n"
+                "2,charlie,3\n"
+            ) == df.to_csv(line_terminator="\n")
+        )

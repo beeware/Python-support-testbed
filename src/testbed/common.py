@@ -2,7 +2,6 @@
 # Common tests
 ###########################################################################
 import importlib
-import os
 import sys
 
 
@@ -12,9 +11,7 @@ from .utils import assert_, skipIf
 def test_bootstrap_modules():
     "All the bootstrap modules are importable"
     missing = []
-
-    # The list of bootstrap modules that don't have explicit tests.
-    for module in [
+    all_modules = [
         '_abc',
         '_codecs',
         '_collections',
@@ -36,7 +33,19 @@ def test_bootstrap_modules():
         'posix',
         'pwd',
         'time',
-    ]:
+    ]
+
+    # Modules that are disabled on iOS
+    if sys.platform == "ios":
+        all_modules.remove('pwd')
+
+    # Modules that are disabled on Windows
+    if sys.platform == "win32":
+        all_modules.remove("posix")
+        all_modules.remove("pwd")
+
+    # The list of bootstrap modules that don't have explicit tests.
+    for module in all_modules:
         try:
             importlib.import_module(module)
         except ModuleNotFoundError:
@@ -97,10 +106,27 @@ def test_stdlib_modules():
     if sys.version_info >= (3, 11):
         all_modules.extend(['_typing'])
 
-    # Modules that are known to not exist on Android
+    # Modules that do not exist on Android
     if hasattr(sys, 'getandroidapilevel'):
         all_modules.remove('grp')
         all_modules.remove('_crypt')
+
+    # Modules that do not exist on iOS
+    if sys.platform == 'ios':
+        all_modules.remove("_multiprocessing")
+        all_modules.remove("_posixsubprocess")
+        all_modules.remove("grp")
+        all_modules.remove("syslog")
+
+    # Modules that do not exist on Windows
+    if sys.platform == "win32":
+        all_modules.remove("_crypt")
+        all_modules.remove("_posixsubprocess")
+        all_modules.remove("fcntl")
+        all_modules.remove("grp")
+        all_modules.remove("resource")
+        all_modules.remove("syslog")
+        all_modules.remove("termios")
 
     # Modules that are shadows of pure python modules, but should be compiled
     all_modules.extend([
@@ -153,6 +179,8 @@ def test_dbm_dumb():
 
 
 @skipIf(hasattr(sys, 'getandroidapilevel'), "NDBM not available on Android")
+@skipIf(sys.platform == "linux", "NDBM not universally available on Linux")
+@skipIf(sys.platform == "win32", "NDBM not available on Windows")
 def test_dbm_ndbm():
     "The ndbm DBM module has been compiled and works"
     from dbm import ndbm

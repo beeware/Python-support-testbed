@@ -41,7 +41,7 @@ requires=[
 
 [tool.briefcase.app.testbed.linux.appimage]
 requires=[
-    '--no-binary', 'pillow'
+    '--no-binary', ':all:'
 ]
 
 system_requires = [

@@ -198,7 +198,19 @@ def test_decimal():
     from decimal import Decimal, getcontext
 
     getcontext().prec = 28
-    assert str(Decimal(1) / Decimal(7)) == "0.1428571428571428571428571429"
+    assert_(str(Decimal(1) / Decimal(7)) == "0.1428571428571428571428571429")
+
+
+def test_docstrings():
+    "Docstrings have been enabled."
+    import hashlib
+
+    # hashlib.md5 is a builtin method that has it's prototype defined using
+    # Argument Clinic. This is then read by `inspect`. If the support package
+    # disabled docstrings with `--without-doc-strings`, these two attributes
+    # will return None.
+    assert_(hashlib.md5.__doc__ is not None)
+    assert_(hashlib.md5.__text_signature__ is not None)
 
 
 def test_hashlib():

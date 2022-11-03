@@ -6,27 +6,27 @@ import sys
 
 import pytest
 
-
 if sys.platform != "linux":
     pytest.skip("Skipping Linux-only tests", allow_module_level=True)
 
 
 def test_dbm_gdbm():
     "The GNU DBM module has been compiled and works"
-    from dbm import gnu as gdbm
     import tempfile
+    from dbm import gnu as gdbm
 
-    cache_name = f'{tempfile.mkdtemp()}/gdbm'
-    with gdbm.open(cache_name, 'c') as db:
-        db['hello'] = 'world'
+    cache_name = f"{tempfile.mkdtemp()}/gdbm"
+    with gdbm.open(cache_name, "c") as db:
+        db["hello"] = "world"
 
-        assert db['hello'] == b'world'
+        assert db["hello"] == b"world"
 
 
 def test_glib():
     "Glib is available"
     import gi
-    gi.require_version('GLib', '2.0')
+
+    gi.require_version("GLib", "2.0")
     from gi.repository import GLib
 
     assert GLib.base64_encode(b"hello world") == "aGVsbG8gd29ybGQ="
@@ -35,7 +35,8 @@ def test_glib():
 def test_pango():
     "Pango is available"
     import gi
-    gi.require_version('Pango', '1.0')
+
+    gi.require_version("Pango", "1.0")
     from gi.repository import Pango
 
     font = Pango.FontDescription()
@@ -48,7 +49,8 @@ def test_pango():
 def test_gdk():
     "GDK is available"
     import gi
-    gi.require_version('Gdk', '3.0')
+
+    gi.require_version("Gdk", "3.0")
     from gi.repository import Gdk
 
     color = Gdk.Color(37, 42, 69)
@@ -58,7 +60,8 @@ def test_gdk():
 def test_gtk():
     "GTK is available"
     import gi
-    gi.require_version('Gtk', '3.0')
+
+    gi.require_version("Gtk", "3.0")
     from gi.repository import Gtk
 
     app = Gtk.Application()
@@ -68,15 +71,12 @@ def test_gtk():
 def test_gdkpixbuf():
     "GDKPixbuf is available"
     import gi
-    gi.require_version('GdkPixbuf', '2.0')
+
+    gi.require_version("GdkPixbuf", "2.0")
     from gi.repository import GdkPixbuf
 
     pixbuf = GdkPixbuf.Pixbuf.new_from_file(
-        os.path.join(
-            os.path.dirname(__file__),
-            "resources",
-            "test-pattern.png"
-        )
+        os.path.join(os.path.dirname(__file__), "resources", "test-pattern.png")
     )
     assert pixbuf.get_height() == 768
 

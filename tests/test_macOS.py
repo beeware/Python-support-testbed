@@ -6,7 +6,6 @@ import sys
 
 import pytest
 
-
 if sys.platform != "darwin":
     pytest.skip("Skipping macOS-only tests", allow_module_level=True)
 
@@ -44,7 +43,7 @@ def test_curses():
 
 def test_posix_shmem():
     "POSIX shared memory works"
-    from multiprocessing import shared_memory
+    from multiprocessing import shared_memory  # noqa: F401
 
     # FIXME: For now, we can't actually test multiprocessing
     # because it involves invoking a subprocess, and the macOS app
@@ -82,4 +81,6 @@ def test_stdlib_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert len(missing) == 0, f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    assert (
+        len(missing) == 0
+    ), f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"

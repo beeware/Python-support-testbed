@@ -5,8 +5,7 @@ import sys
 
 import pytest
 
-
-if not hasattr(sys, 'getandroidapilevel'):
+if not hasattr(sys, "getandroidapilevel"):
     pytest.skip("Skipping Android-only tests", allow_module_level=True)
 
 

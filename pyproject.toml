@@ -101,3 +101,8 @@ requires = [
 ]
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
+
+[tool.isort]
+profile = "black"
+split_on_trailing_comma = true
+combine_as_imports = true

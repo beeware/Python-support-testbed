@@ -4,10 +4,9 @@
 from rubicon.objc import ObjCClass
 from rubicon.objc.runtime import load_library
 
-
 appkit = load_library("AppKit")
 
-NSApplication = ObjCClass('NSApplication')
+NSApplication = ObjCClass("NSApplication")
 NSApplication.declare_class_property("sharedApplication")
 
 

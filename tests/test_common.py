@@ -11,32 +11,32 @@ def test_bootstrap_modules():
     "All the bootstrap modules are importable"
     missing = []
     all_modules = [
-        '_abc',
-        '_codecs',
-        '_collections',
-        '_functools',
-        '_io',
-        '_locale',
-        '_operator',
-        '_signal',
-        '_sre',
-        '_stat',
-        '_symtable',
-        '_thread',
-        '_tracemalloc',
-        '_weakref',
-        'atexit',
-        'errno',
-        'faulthandler',
-        'itertools',
-        'posix',
-        'pwd',
-        'time',
+        "_abc",
+        "_codecs",
+        "_collections",
+        "_functools",
+        "_io",
+        "_locale",
+        "_operator",
+        "_signal",
+        "_sre",
+        "_stat",
+        "_symtable",
+        "_thread",
+        "_tracemalloc",
+        "_weakref",
+        "atexit",
+        "errno",
+        "faulthandler",
+        "itertools",
+        "posix",
+        "pwd",
+        "time",
     ]
 
     # Modules that are disabled on iOS
     if sys.platform == "ios":
-        all_modules.remove('pwd')
+        all_modules.remove("pwd")
 
     # Modules that are disabled on Windows
     if sys.platform == "win32":
@@ -50,7 +50,9 @@ def test_bootstrap_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert len(missing) == 0, f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}"
+    assert (
+        len(missing) == 0
+    ), f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}"
 
 
 def test_stdlib_modules():
@@ -98,20 +100,19 @@ def test_stdlib_modules():
     ]
 
     # Modules added in 3.8
-    if sys.version_info >= (3, 8):
-        all_modules.extend(["_statistics"])
+    all_modules.extend(["_statistics"])
 
     # Modules added in 3.11
     if sys.version_info >= (3, 11):
-        all_modules.extend(['_typing'])
+        all_modules.extend(["_typing"])
 
     # Modules that do not exist on Android
-    if hasattr(sys, 'getandroidapilevel'):
-        all_modules.remove('grp')
-        all_modules.remove('_crypt')
+    if hasattr(sys, "getandroidapilevel"):
+        all_modules.remove("grp")
+        all_modules.remove("_crypt")
 
     # Modules that do not exist on iOS
-    if sys.platform == 'ios':
+    if sys.platform == "ios":
         all_modules.remove("_multiprocessing")
         all_modules.remove("_posixsubprocess")
         all_modules.remove("grp")
@@ -128,10 +129,12 @@ def test_stdlib_modules():
         all_modules.remove("termios")
 
     # Modules that are shadows of pure python modules, but should be compiled
-    all_modules.extend([
-        "_elementtree",
-        "pyexpat",
-    ])
+    all_modules.extend(
+        [
+            "_elementtree",
+            "pyexpat",
+        ]
+    )
 
     for module in all_modules:
         try:
@@ -139,7 +142,9 @@ def test_stdlib_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert len(missing) == 0, f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    assert (
+        len(missing) == 0
+    ), f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
 
 
 def test_bzip2():
@@ -158,38 +163,42 @@ def test_dbm():
     import dbm
     import tempfile
 
-    cache_name = f'{tempfile.mkdtemp()}/dbm'
-    with dbm.open(cache_name, 'c') as db:
-        db['hello'] = 'world'
+    cache_name = f"{tempfile.mkdtemp()}/dbm"
+    with dbm.open(cache_name, "c") as db:
+        db["hello"] = "world"
 
-        assert db['hello'] == b'world'
+        assert db["hello"] == b"world"
 
 
 def test_dbm_dumb():
     "The dumb DBM module has been compiled and works"
-    from dbm import dumb as ddbm
     import tempfile
+    from dbm import dumb as ddbm
 
-    cache_name = f'{tempfile.mkdtemp()}/ddbm'
-    with ddbm.open(cache_name, 'c') as db:
-        db['hello'] = 'world'
+    cache_name = f"{tempfile.mkdtemp()}/ddbm"
+    with ddbm.open(cache_name, "c") as db:
+        db["hello"] = "world"
 
-        assert db['hello'] == b'world'
+        assert db["hello"] == b"world"
 
 
-@pytest.mark.skipif(hasattr(sys, 'getandroidapilevel'), reason="NDBM not available on Android")
-@pytest.mark.skipif(sys.platform == "linux", reason="NDBM not universally available on Linux")
+@pytest.mark.skipif(
+    hasattr(sys, "getandroidapilevel"), reason="NDBM not available on Android"
+)
+@pytest.mark.skipif(
+    sys.platform == "linux", reason="NDBM not universally available on Linux"
+)
 @pytest.mark.skipif(sys.platform == "win32", reason="NDBM not available on Windows")
 def test_dbm_ndbm():
     "The ndbm DBM module has been compiled and works"
-    from dbm import ndbm
     import tempfile
+    from dbm import ndbm
 
-    cache_name = f'{tempfile.mkdtemp()}/ndbm'
-    with ndbm.open(cache_name, 'c') as db:
-        db['hello'] = 'world'
+    cache_name = f"{tempfile.mkdtemp()}/ndbm"
+    with ndbm.open(cache_name, "c") as db:
+        db["hello"] = "world"
 
-        assert db['hello'] == b'world'
+        assert db["hello"] == b"world"
 
 
 def test_decimal():
@@ -266,7 +275,9 @@ def test_hashlib():
             digest_args = []
         msg = getattr(hashlib, algorithm)()
         msg.update(b"Hello world")
-        assert msg.hexdigest(*digest_args) == expected, f"{algorithm} digest was {msg.hexdigest(*digest_args)}"
+        assert (
+            msg.hexdigest(*digest_args) == expected
+        ), f"{algorithm} digest was {msg.hexdigest(*digest_args)}"
 
 
 def test_sqlite3():
@@ -284,10 +295,10 @@ def test_sqlite3():
         cursor.execute("INSERT INTO stonks VALUES ('2022-05-04', 'SITH', 2, 6.66)")
         conn.commit()
 
-        assert (
-            list(cursor.execute("SELECT * FROM stonks ORDER BY symbol DESC"))
-            == [("2022-05-04", "SITH", 2.0, 6.66), ("2022-05-04", "JEDI", 10.0, 2.5)]
-        )
+        assert list(cursor.execute("SELECT * FROM stonks ORDER BY symbol DESC")) == [
+            ("2022-05-04", "SITH", 2.0, 6.66),
+            ("2022-05-04", "JEDI", 10.0, 2.5),
+        ]
     finally:
         conn.close()
 
@@ -322,8 +333,8 @@ def test_uuid():
     uuid_str = str(uuid.uuid4())
     # UUID4s are random; but we can check for certain important characters
     assert len(uuid_str) == 36
-    assert uuid_str[14] == '4'
-    assert all(uuid_str[n] == '-' for n in [8, 13, 18, 23])
+    assert uuid_str[14] == "4"
+    assert all(uuid_str[n] == "-" for n in [8, 13, 18, 23])
 
 
 XML_DOCUMENT = """<?xml version="1.0"?>
@@ -345,10 +356,10 @@ def test_xml_elementtree():
     import xml.etree.ElementTree as ET
 
     root = ET.fromstring(XML_DOCUMENT)
-    assert (
-        [(child.tag, child.attrib["name"]) for child in root]
-        == [("device", "iPhone"), ("device", "macBook")]
-    )
+    assert [(child.tag, child.attrib["name"]) for child in root] == [
+        ("device", "iPhone"),
+        ("device", "macBook"),
+    ]
 
 
 def test_xml_expat():
@@ -387,11 +398,13 @@ def test_zlib():
     assert data == b"x\x9c\xf3H\xcd\xc9\xc9W(\xcf/\xcaI\x01\x00\x18\xab\x04="
 
 
-@pytest.mark.skipif(sys.version_info < (3, 9), reason="zoneinfo introduced in Python 3.9")
+@pytest.mark.skipif(
+    sys.version_info < (3, 9), reason="zoneinfo introduced in Python 3.9"
+)
 def test_zoneinfo():
     "Zoneinfo database is available"
-    from zoneinfo import ZoneInfo
     from datetime import datetime
+    from zoneinfo import ZoneInfo
 
     dt = datetime(2022, 5, 4, 13, 40, 42, tzinfo=ZoneInfo("Australia/Perth"))
     assert str(dt) == "2022-05-04 13:40:42+08:00"

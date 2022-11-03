@@ -10,8 +10,8 @@ def main():
     print("=" * 80)
 
     # Load the platform module
-    if hasattr(sys, 'getandroidapilevel'):
-        module_path = '.android'
+    if hasattr(sys, "getandroidapilevel"):
+        module_path = ".android"
     else:
         module_path = f".{sys.platform}"
     platform_module = importlib.import_module(module_path, "testbed")

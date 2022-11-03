@@ -6,8 +6,8 @@
 #######################################################################
 from rubicon.objc import ObjCClass
 
+UIResponder = ObjCClass("UIResponder")
 
-UIResponder = ObjCClass('UIResponder')
 
 class PythonAppDelegate(UIResponder):
     pass

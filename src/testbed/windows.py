@@ -5,7 +5,7 @@ import clr
 
 clr.AddReference("System.Windows.Forms")
 
-import System.Windows.Forms as WinForms
+import System.Windows.Forms as WinForms  # noqa; E402
 
 
 class TestBed(WinForms.Form):

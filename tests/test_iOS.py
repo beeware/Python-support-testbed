@@ -5,7 +5,6 @@ import sys
 
 import pytest
 
-
 if sys.platform != "ios":
     pytest.skip("Skipping iOS-only tests", allow_module_level=True)
 
@@ -28,8 +27,8 @@ def test_subprocess():
     import subprocess
 
     try:
-        subprocess.call(['uname', '-a'])
-        raise AssertionError('Subprocesses should not be possible')
+        subprocess.call(["uname", "-a"])
+        raise AssertionError("Subprocesses should not be possible")
     except RuntimeError as e:
         # RuntimeError is raised on Py3.10 and lower
         assert str(e) == "Subprocesses are not supported on ios"

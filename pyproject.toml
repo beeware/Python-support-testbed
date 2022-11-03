@@ -37,6 +37,7 @@ requires = [
 
 [tool.briefcase.app.testbed.macOS.Xcode]
 # template = "../../templates/briefcase-macOS-Xcode-template"
+template_branch = "testcase"
 
 [tool.briefcase.app.testbed.linux]
 requires=[
@@ -67,6 +68,8 @@ linuxdeploy_plugins = [
 
 # support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
 # template = "../../templates/briefcase-linux-appimage-template"
+# FIXME: Use the PR949-compatible branch
+template_branch = "testcase"
 
 [tool.briefcase.app.testbed.linux.flatpak]
 # template = "../../templates/briefcase-linux-flatpak-template"
@@ -83,6 +86,8 @@ requires = [
 
 [tool.briefcase.app.testbed.windows.VisualStudio]
 # template = "../../templates/briefcase-windows-VisualStudio-template"
+# FIXME: Use the PR949-compatible branch
+template_branch = "testcase"
 
 # Mobile deployments
 [tool.briefcase.app.testbed.iOS]
@@ -92,6 +97,8 @@ requires = [
 ]
 # support_package = "../Python-Apple-support/dist/Python-3.8-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
+# FIXME: Use the PR949-compatible branch
+template_branch = "testcase"
 
 [tool.briefcase.app.testbed.android]
 requires = [
@@ -101,6 +108,8 @@ requires = [
 ]
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
+# FIXME: Use the PR949-compatible branch
+template_branch = "testcase"
 
 [tool.isort]
 profile = "black"

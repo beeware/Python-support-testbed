@@ -28,8 +28,8 @@ jobs:
     name: Unit tests
     needs: [pre-commit]
     strategy:
+      fail-fast: false
       matrix:
-        # fail-fast: False
         platform: ['macOS', 'linux-appimage', 'linux-flatpak', 'windows', 'iOS', 'android']
         python-version: ['3.8', '3.9', '3.10', '3.11']
 
@@ -70,15 +70,8 @@ jobs:
       uses: actions/setup-python@v4.3.0
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Get packages
-      uses: actions/download-artifact@v3
-      with:
-        name: packages
-        path: dist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install --upgrade setuptools
         # Temp: Use the PR949 branch
         # pip install briefcase
         pip install git+https://github.com/beeware/briefcase.git@test-cmd

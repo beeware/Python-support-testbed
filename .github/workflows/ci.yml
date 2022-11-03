@@ -74,7 +74,7 @@ jobs:
       run: |
         # Temp: Use the PR949 branch
         # pip install briefcase
-        pip install git+https://github.com/beeware/briefcase.git@test-cmd
+        pip install git+https://github.com/freakboy3742/briefcase.git@test-cmd
     - name: Package
       run: |
         briefcase create ${{ matrix.briefcase-target }}

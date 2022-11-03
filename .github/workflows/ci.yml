@@ -30,32 +30,49 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: ['macOS', 'linux-appimage', 'linux-flatpak', 'windows', 'iOS', 'android']
+        backend: ['macOS-Xcode', 'macOS-app', 'linux-appimage', 'linux-flatpak', 'windows-VisualStudio', 'windows-app', 'iOS', 'android']
         python-version: ['3.8', '3.9', '3.10', '3.11']
         include:
           - runs-on: ubuntu-latest
           - pre-command:
           - briefcase-target:
           - briefcase-device:
+          - run-tests: true
 
-          - backend: macOS
+          - backend: macOS-Xcode
             runs-on: macos-12
             briefcase-target: "macOS Xcode"
+
+          - backend: macOS-app
+            runs-on: macos-12
+            briefcase-target: "macOS app"
+            run-tests: false
 
           - backend: linux-appimage
             runs-on: ubuntu-latest
             pre-command: "sudo apt-get update -y && sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config"
             briefcase-target: "linux appimage"
+            # FIXME: We need to test this
+            run-tests: false
 
           - backend: linux-flatpak
             # Need to use at least 22.04 to get the bugfix in flatpak for handling spaces in filenames.
             runs-on: ubuntu-22.04
             pre-command: "sudo apt-get update -y && sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config"
             briefcase-target: "linux flatpak"
+            # FIXME: We need to test this
+            run-tests: false
 
-          - backend: windows
+          - backend: windows-VisualStudio
             runs-on: windows-latest
             briefcase-target: "windows VisualStudio"
+            # FIXME: We need to test this
+            run-tests: false
+
+          - backend: windows-app
+            runs-on: windows-latest
+            briefcase-target: "windows app"
+            run-tests: false
 
           - backend: iOS
             runs-on: macos-latest
@@ -66,6 +83,8 @@ jobs:
             runs-on: ubuntu-latest
             briefcase-target: "android"
             briefcase-device: ' -d @beePhone'
+            # FIXME: We need to test this
+            run-tests: false
 
     runs-on: ${{ matrix.runs-on }}
     steps:
@@ -88,5 +107,6 @@ jobs:
         briefcase build ${{ matrix.briefcase-target }}
         briefcase package ${{ matrix.briefcase-target }} --adhoc-sign
     - name: Test
+      if: ${{ matrix.run-tests }}
       run: |
         briefcase test ${{ matrix.briefcase-target }} ${{ matrix.briefcase-device }}

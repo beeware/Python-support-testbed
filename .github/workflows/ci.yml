@@ -30,11 +30,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: ['macOS', 'linux-appimage', 'linux-flatpak', 'windows', 'iOS', 'android']
+        backend: ['macOS', 'linux-appimage', 'linux-flatpak', 'windows', 'iOS', 'android']
         python-version: ['3.8', '3.9', '3.10', '3.11']
 
         include:
-          - platform: macOS
+          - pre-command:
+
+          - backend: macOS
             runs-on: macos-12
             briefcase-target: "macOS Xcode"
 
@@ -72,6 +74,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        ${{ matrix.pre-command }}
         # Temp: Use the PR949 branch
         # pip install briefcase
         pip install git+https://github.com/freakboy3742/briefcase.git@test-cmd

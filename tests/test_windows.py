@@ -1,14 +1,14 @@
 ###########################################################################
-# Linux specific tests
+# Windows specific tests
 ###########################################################################
 import os
 import sys
 
-from .utils import assert_
+import pytest
 
+if sys.platform != "win32":
+    pytest.skip("Skipping Windows-only tests", allow_module_level=True)
 
-def exit(failures):
-    sys.exit(failures)
 
 
 def test_pythonnet():
@@ -21,4 +21,4 @@ def test_pythonnet():
     from System.Drawing import Image
 
     image = Image.FromFile(os.path.join(os.path.dirname(__file__), "resources", "test-pattern.png"))
-    assert_((image.Size.Width, image.Size.Height) == (1366, 768))
+    assert (image.Size.Width, image.Size.Height) == (1366, 768)

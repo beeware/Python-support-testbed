@@ -4,8 +4,7 @@
 import importlib
 import sys
 
-
-from .utils import assert_, skipIf
+import pytest
 
 
 def test_bootstrap_modules():
@@ -51,7 +50,7 @@ def test_bootstrap_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert_(len(missing) == 0, msg=f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}")
+    assert len(missing) == 0, f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}"
 
 
 def test_stdlib_modules():
@@ -140,7 +139,7 @@ def test_stdlib_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert_(len(missing) == 0, msg=f"Missing stdlib modules: {', '.join(str(m) for m in missing)}")
+    assert len(missing) == 0, f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
 
 
 def test_bzip2():
@@ -148,7 +147,7 @@ def test_bzip2():
     import bz2
 
     data = bz2.compress(b"Hello world")
-    assert_(
+    assert (
         data == b"BZh91AY&SY\x059\x88u\x00\x00\x00\x95\x80@\x00\x00@\x06\x04"
         b'\x90\x80 \x00"\x06\x9bHC\x02\x1a|\n\xa1<]\xc9\x14\xe1B@\x14\xe6!\xd4'
     )
@@ -163,7 +162,7 @@ def test_dbm():
     with dbm.open(cache_name, 'c') as db:
         db['hello'] = 'world'
 
-        assert_(db['hello'] == b'world')
+        assert db['hello'] == b'world'
 
 
 def test_dbm_dumb():
@@ -175,12 +174,12 @@ def test_dbm_dumb():
     with ddbm.open(cache_name, 'c') as db:
         db['hello'] = 'world'
 
-        assert_(db['hello'] == b'world')
+        assert db['hello'] == b'world'
 
 
-@skipIf(hasattr(sys, 'getandroidapilevel'), "NDBM not available on Android")
-@skipIf(sys.platform == "linux", "NDBM not universally available on Linux")
-@skipIf(sys.platform == "win32", "NDBM not available on Windows")
+@pytest.mark.skipif(hasattr(sys, 'getandroidapilevel'), reason="NDBM not available on Android")
+@pytest.mark.skipif(sys.platform == "linux", reason="NDBM not universally available on Linux")
+@pytest.mark.skipif(sys.platform == "win32", reason="NDBM not available on Windows")
 def test_dbm_ndbm():
     "The ndbm DBM module has been compiled and works"
     from dbm import ndbm
@@ -190,7 +189,7 @@ def test_dbm_ndbm():
     with ndbm.open(cache_name, 'c') as db:
         db['hello'] = 'world'
 
-        assert_(db['hello'] == b'world')
+        assert db['hello'] == b'world'
 
 
 def test_decimal():
@@ -198,7 +197,7 @@ def test_decimal():
     from decimal import Decimal, getcontext
 
     getcontext().prec = 28
-    assert_(str(Decimal(1) / Decimal(7)) == "0.1428571428571428571428571429")
+    assert str(Decimal(1) / Decimal(7)) == "0.1428571428571428571428571429"
 
 
 def test_docstrings():
@@ -209,8 +208,8 @@ def test_docstrings():
     # Argument Clinic. This is then read by `inspect`. If the support package
     # disabled docstrings with `--without-doc-strings`, these two attributes
     # will return None.
-    assert_(hashlib.md5.__doc__ is not None)
-    assert_(hashlib.md5.__text_signature__ is not None)
+    assert hashlib.md5.__doc__ is not None
+    assert hashlib.md5.__text_signature__ is not None
 
 
 def test_hashlib():
@@ -267,10 +266,7 @@ def test_hashlib():
             digest_args = []
         msg = getattr(hashlib, algorithm)()
         msg.update(b"Hello world")
-        assert_(
-            msg.hexdigest(*digest_args) == expected,
-            msg=f"{algorithm} digest was {msg.hexdigest(*digest_args)}",
-        )
+        assert msg.hexdigest(*digest_args) == expected, f"{algorithm} digest was {msg.hexdigest(*digest_args)}"
 
 
 def test_sqlite3():
@@ -288,7 +284,7 @@ def test_sqlite3():
         cursor.execute("INSERT INTO stonks VALUES ('2022-05-04', 'SITH', 2, 6.66)")
         conn.commit()
 
-        assert_(
+        assert (
             list(cursor.execute("SELECT * FROM stonks ORDER BY symbol DESC"))
             == [("2022-05-04", "SITH", 2.0, 6.66), ("2022-05-04", "JEDI", 10.0, 2.5)]
         )
@@ -316,7 +312,7 @@ def test_tempfile():
 
         # Reset the file pointer to 0 and read back the content
         f.seek(0)
-        assert_(f.read() == msg)
+        assert f.read() == msg
 
 
 def test_uuid():
@@ -325,9 +321,9 @@ def test_uuid():
 
     uuid_str = str(uuid.uuid4())
     # UUID4s are random; but we can check for certain important characters
-    assert_(len(uuid_str) == 36)
-    assert_(uuid_str[14] == '4')
-    assert_(all(uuid_str[n] == '-' for n in [8, 13, 18, 23]))
+    assert len(uuid_str) == 36
+    assert uuid_str[14] == '4'
+    assert all(uuid_str[n] == '-' for n in [8, 13, 18, 23])
 
 
 XML_DOCUMENT = """<?xml version="1.0"?>
@@ -349,7 +345,7 @@ def test_xml_elementtree():
     import xml.etree.ElementTree as ET
 
     root = ET.fromstring(XML_DOCUMENT)
-    assert_(
+    assert (
         [(child.tag, child.attrib["name"]) for child in root]
         == [("device", "iPhone"), ("device", "macBook")]
     )
@@ -368,7 +364,7 @@ def test_xml_expat():
     parser.StartElementHandler = start_element
     parser.Parse(XML_DOCUMENT)
 
-    assert_(starts == ["data", "device", "os", "type", "device", "os", "type"])
+    assert starts == ["data", "device", "os", "type", "device", "os", "type"]
 
 
 def test_xz():
@@ -376,7 +372,7 @@ def test_xz():
     import lzma
 
     data = lzma.compress(b"Hello world")
-    assert_(
+    assert (
         data == b"\xfd7zXZ\x00\x00\x04\xe6\xd6\xb4F\x02\x00!\x01\x16\x00\x00\x00t/"
         b"\xe5\xa3\x01\x00\nHello world\x00\x00\xbfVw\xd4\xb9\xf2\xa5\xf4\x00"
         b"\x01#\x0b\xc2\x1b\xfd\t\x1f\xb6\xf3}\x01\x00\x00\x00\x00\x04YZ"
@@ -388,16 +384,14 @@ def test_zlib():
     import zlib
 
     data = zlib.compress(b"Hello world")
-    assert_(
-        data == b"x\x9c\xf3H\xcd\xc9\xc9W(\xcf/\xcaI\x01\x00\x18\xab\x04="
-    )
+    assert data == b"x\x9c\xf3H\xcd\xc9\xc9W(\xcf/\xcaI\x01\x00\x18\xab\x04="
 
 
-@skipIf(sys.version_info < (3, 9), "zoneinfo introduced in Python 3.9")
+@pytest.mark.skipif(sys.version_info < (3, 9), reason="zoneinfo introduced in Python 3.9")
 def test_zoneinfo():
     "Zoneinfo database is available"
     from zoneinfo import ZoneInfo
     from datetime import datetime
 
     dt = datetime(2022, 5, 4, 13, 40, 42, tzinfo=ZoneInfo("Australia/Perth"))
-    assert_(str(dt) == "2022-05-04 13:40:42+08:00")
+    assert str(dt) == "2022-05-04 13:40:42+08:00"

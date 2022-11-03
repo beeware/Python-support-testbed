@@ -5,10 +5,10 @@ import os
 import sys
 import warnings
 
-from .utils import assert_, skipIf
+import pytest
 
 
-@skipIf(sys.platform == "win32", "cffi not available on windows")
+@pytest.mark.skipif(sys.platform == "win32", reason="cffi not available on windows")
 def test_cffi():
     "CFFI can be used as an alternative FFI interface"
     from cffi import FFI
@@ -16,7 +16,7 @@ def test_cffi():
     ffi = FFI()
     ffi.cdef("size_t strlen(char *str);")
     lib = ffi.dlopen(None)
-    assert_(lib.strlen(ffi.new("char[]", b"hello world")) == 11)
+    assert lib.strlen(ffi.new("char[]", b"hello world")) == 11
 
 
 def test_cryptography():
@@ -33,7 +33,7 @@ def test_cryptography():
     f = Fernet(key)
     msg = b"my deep dark secret"
     token = f.encrypt(msg)
-    assert_(msg == f.decrypt(token))
+    assert msg == f.decrypt(token)
 
     # Decode an x509 certificate
     cert_pem = dedent("""
@@ -68,7 +68,7 @@ def test_cryptography():
 
     cert = x509.load_pem_x509_certificate(cert_pem, default_backend())
     domain = cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)[0].value
-    assert_("www.android.com" == domain)
+    assert "www.android.com" == domain
 
 
 def test_lru_dict():
@@ -84,10 +84,10 @@ def test_lru_dict():
 
     # Items 0-4 have been evicted
     for i in range(5):
-        assert_(f"item_{i}" not in lru_dict)
+        assert f"item_{i}" not in lru_dict
     # Items 5-9 are still there
     for i in range(5, 10):
-        assert_(lru_dict[f"item_{i}"] == i)
+        assert lru_dict[f"item_{i}"] == i
 
 
 def test_pillow():
@@ -103,14 +103,14 @@ def test_pillow():
                 f"test-pattern.{extension}"
             )
         )
-        assert_(image.size == (1366, 768))
+        assert image.size == (1366, 768)
 
 
 def test_numpy():
     "Numpy Arrays can be created"
     from numpy import array
     # Numpy is the thousand pound gorilla packaging test.
-    assert_([4, 7] == (array([1, 2]) + array([3, 5])).tolist())
+    assert [4, 7] == (array([1, 2]) + array([3, 5])).tolist()
 
 
 def test_pandas():
@@ -124,11 +124,9 @@ def test_pandas():
         # Pandas 1.5 changed the `line_terminator` argument to `lineterminator`
         warnings.filterwarnings("ignore", category=FutureWarning)
 
-        assert_(
-            (
-                ",Letter,Number\n"
-                "0,alpha,1\n"
-                "1,bravo,2\n"
-                "2,charlie,3\n"
-            ) == df.to_csv(line_terminator="\n")
-        )
+        assert (
+            ",Letter,Number\n"
+            "0,alpha,1\n"
+            "1,bravo,2\n"
+            "2,charlie,3\n"
+        ) == df.to_csv(line_terminator="\n")

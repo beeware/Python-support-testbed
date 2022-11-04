@@ -43,6 +43,7 @@ template_branch = "testcase"
 requires=[
     'pycairo',
     'pygobject',
+    "cryptography<=3.4.8",
 ]
 
 [tool.briefcase.app.testbed.linux.appimage]

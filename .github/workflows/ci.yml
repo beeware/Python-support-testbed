@@ -117,4 +117,4 @@ jobs:
     - name: Test
       if: ${{ matrix.run-tests }}
       run: |
-        briefcase test ${{ matrix.briefcase-target }} ${{ matrix.briefcase-device }}
+        briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-device }}

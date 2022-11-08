@@ -46,7 +46,6 @@ jobs:
           - backend: macOS-app
             runs-on: macos-12
             briefcase-target: "macOS app"
-            run-tests: false
 
           - backend: linux-appimage
             runs-on: ubuntu-latest
@@ -72,6 +71,7 @@ jobs:
           - backend: windows-app
             runs-on: windows-latest
             briefcase-target: "windows app"
+            # FIXME: We need to test this
             run-tests: false
 
           - backend: iOS
@@ -106,9 +106,9 @@ jobs:
     - name: Install dependencies
       run: |
         ${{ matrix.pre-command }}
-        # Temp: Use the PR949 branch
+        # Temp: Use the PR962 branch
         # pip install briefcase
-        pip install git+https://github.com/freakboy3742/briefcase.git@test-cmd
+        pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
     - name: Package
       run: |
         briefcase create ${{ matrix.briefcase-target }}

@@ -34,16 +34,16 @@ requires = [
 
 [tool.briefcase.app.testbed.macOS.app]
 # template = "../../templates/briefcase-macOS-app-template"
+template_branch = "testcase2"
 
 [tool.briefcase.app.testbed.macOS.Xcode]
 # template = "../../templates/briefcase-macOS-Xcode-template"
-template_branch = "testcase"
+template_branch = "testcase2"
 
 [tool.briefcase.app.testbed.linux]
 requires=[
     'pycairo',
     'pygobject',
-    "cryptography<3.4",
 ]
 
 [tool.briefcase.app.testbed.linux.appimage]
@@ -69,12 +69,12 @@ linuxdeploy_plugins = [
 
 # support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
 # template = "../../templates/briefcase-linux-appimage-template"
-# FIXME: Use the PR949-compatible branch
+# FIXME: Use the PR962-compatible branch
 # template_branch = "testcase"
 
 [tool.briefcase.app.testbed.linux.flatpak]
 # template = "../../templates/briefcase-linux-flatpak-template"
-# FIXME: Use the PR949-compatible branch
+# FIXME: Use the PR962-compatible branch
 # template_branch = "testcase"
 
 [tool.briefcase.app.testbed.windows]
@@ -89,7 +89,7 @@ requires = [
 
 [tool.briefcase.app.testbed.windows.VisualStudio]
 # template = "../../templates/briefcase-windows-VisualStudio-template"
-# FIXME: Use the PR949-compatible branch
+# FIXME: Use the PR962-compatible branch
 # template_branch = "testcase"
 
 # Mobile deployments
@@ -100,8 +100,7 @@ requires = [
 ]
 # support_package = "../Python-Apple-support/dist/Python-3.8-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
-# FIXME: Use the PR949-compatible branch
-template_branch = "testcase"
+template_branch = "testcase2"
 
 [tool.briefcase.app.testbed.android]
 requires = [
@@ -111,7 +110,7 @@ requires = [
 ]
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
-# FIXME: Use the PR949-compatible branch
+# FIXME: Use the PR962-compatible branch
 # template_branch = "testcase"
 
 [tool.isort]

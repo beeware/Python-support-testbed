@@ -106,6 +106,7 @@ def test_pillow():
             )
         )
         assert image.size == (1366, 768)
+        image.close()
 
 
 def test_numpy():

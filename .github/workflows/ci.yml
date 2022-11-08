@@ -117,4 +117,5 @@ jobs:
     - name: Test
       if: ${{ matrix.run-tests }}
       run: |
-        briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-device }}
+        # FIXME - dependencies shouldn't need to be manually specified here
+        briefcase run ${{ matrix.briefcase-target }} --test -d ${{ matrix.briefcase-device }}

@@ -62,11 +62,20 @@ system_requires = [
     'libjpeg-dev',
     'libpng-dev',
     'libtiff-dev',
+    # Required to install Rust
+    'curl',
+    'libssl-dev',
 ]
 
 linuxdeploy_plugins = [
     'DEPLOY_GTK_VERSION=3 gtk',
 ]
+
+dockerfile_extra_content = """
+# Install Rust (required for cryptography)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/home/brutus/.cargo/bin:${PATH}"
+"""
 
 # support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
 # template = "../../templates/briefcase-linux-appimage-template"

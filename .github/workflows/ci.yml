@@ -109,13 +109,10 @@ jobs:
         # Temp: Use the PR962 branch
         # pip install briefcase
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
-    - name: Package
-      run: |
-        briefcase create ${{ matrix.briefcase-target }}
-        briefcase build ${{ matrix.briefcase-target }}
-        briefcase package ${{ matrix.briefcase-target }} --adhoc-sign
-    - name: Test
+    - name: Test App
       if: ${{ matrix.run-tests }}
       run: |
-        # FIXME - dependencies shouldn't need to be manually specified here
-        briefcase run ${{ matrix.briefcase-target }} --test -d ${{ matrix.briefcase-device }}
+        briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-device }}
+    - name: Package
+      run: |
+        briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign

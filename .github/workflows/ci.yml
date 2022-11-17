@@ -73,7 +73,7 @@ jobs:
           - backend: android
             runs-on: ubuntu-latest
             briefcase-target: "android"
-            briefcase-device: " -d @beePhone"
+            briefcase-device: " -d '{\"avd\":\"beePhone\"}'"
 
         exclude:
           # Binary packages aren't available for 3.11 on mobile yet

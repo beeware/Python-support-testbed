@@ -72,6 +72,7 @@ jobs:
 
           - backend: android
             runs-on: ubuntu-latest
+            pre-command: "sudo apt-get update -y && sudo apt-get install -y pulseaudio"
             briefcase-target: "android"
             briefcase-device: " -d '{\"avd\":\"beePhone\"}'"
 

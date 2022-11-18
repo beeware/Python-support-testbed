@@ -109,18 +109,13 @@ jobs:
 
   android:
     name: Android test
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
-      - name: Start Emulator
-        run: |
-          docker run -e "ADBKEY=$(cat ~/.android/adbkey)" --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp us-docker.pkg.dev/android-emulator-268719/images/29-google-x64:30.1.2
-      - name: List devices
-        run: |
-          adb devices
-      - name: Connect
-        run: |
-          adb connect localhost:5555
-      - name: List devices 2
-        run: |
-          adb connect localhost:5555
-          adb devices
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          target: default
+          arch: x86_64
+          profile: Nexus 6
+          script: adb devices

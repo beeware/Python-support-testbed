@@ -71,8 +71,7 @@ jobs:
             briefcase-device: ' -d "iPhone SE (3rd generation)"'
 
           - backend: android
-            runs-on: ubuntu-latest
-            pre-command: "sudo apt-get update -y && sudo apt-get install -y pulseaudio"
+            runs-on: macos-12
             briefcase-target: "android"
             briefcase-device: " -d '{\"avd\":\"beePhone\"}'"
 

@@ -124,5 +124,7 @@ jobs:
         # pip install briefcase
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
     - name: Test App
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
       run: |
         briefcase run android --test -d '{"avd":"testPhone"}' -v

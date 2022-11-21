@@ -123,23 +123,6 @@ jobs:
         # Temp: Use the PR962 branch
         # pip install briefcase
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
-    - name: pre Env 1
-      run: |
-        env
-        echo "1: ${{ env.ANDROID_SDK_ROOT }}"
-        echo "2: ${{ github.ANDROID_SDK_ROOT }}"
-    - name: pre Env 2
-      env:
-        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
-      run: |
-        env
-    - name: pre Env 3
-      env:
-        ANDROID_SDK_ROOT: ${{ github.ANDROID_SDK_ROOT }}
-      run: |
-        env
     - name: Test App
-      env:
-        ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
       run: |
-        briefcase run android --test -d '{"avd":"testPhone"}' -v
+        briefcase run android --test -d '{"avd":"testPhone"}' -X=-no-window -X=-no-snapshot -X=-no-audio -X=-no-boot-anim --shutdown-on-exit -v

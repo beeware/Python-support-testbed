@@ -36,7 +36,7 @@ jobs:
           - runs-on: ubuntu-latest
           - pre-command:
           - briefcase-target:
-          - briefcase-device:
+          - briefcase-run-args:
 
           - backend: macOS-Xcode
             runs-on: macos-12
@@ -68,12 +68,12 @@ jobs:
           - backend: iOS
             runs-on: macos-12
             briefcase-target: "iOS"
-            briefcase-device: ' -d "iPhone SE (3rd generation)"'
+            briefcase-run-args: ' -d "iPhone SE (3rd generation)"'
 
           - backend: android
             runs-on: macos-12
             briefcase-target: "android"
-            briefcase-device: " -d '{\"avd\":\"beePhone\"}'"
+            briefcase-run-args: " -d '{\"avd\":\"beePhone\"}' --Xemulator=-no-window --Xemulator=-no-snapshot --Xemulator=-no-audio --Xemulator=-no-boot-anim --shutdown-on-exit"
 
         exclude:
           # Binary packages aren't available for 3.11 on mobile yet
@@ -100,7 +100,7 @@ jobs:
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
     - name: Test App
       run: |
-        briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-device }}
+        briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-run-args }}
     - name: Package
       run: |
         briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign

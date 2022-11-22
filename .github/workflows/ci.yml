@@ -109,7 +109,7 @@ jobs:
 
   android:
     name: Android test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.1.0
       with:
@@ -125,4 +125,4 @@ jobs:
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
     - name: Test App
       run: |
-        briefcase run android --test -d '{"avd":"testPhone"}' --shutdown-on-exit -v
+        briefcase run android --test -d '{"avd":"testPhone"}' -X=-no-window -X=-no-snapshot -X=-no-audio -X=-no-boot-anim --shutdown-on-exit -v

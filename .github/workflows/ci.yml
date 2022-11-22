@@ -123,9 +123,6 @@ jobs:
         # Temp: Use the PR962 branch
         # pip install briefcase
         pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
-    - name: Installed images
-      run: |
-        ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --list_installed
     - name: Test App
       run: |
-        briefcase run android --test -d '{"avd":"testPhone"}' -X=-no-window -X=-no-snapshot -X=-no-audio -X=-no-boot-anim --shutdown-on-exit -v
+        briefcase run android --test -d '{"avd":"testPhone"}' --shutdown-on-exit -v

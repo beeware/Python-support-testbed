@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-if sys.platform != "linux":
+if sys.platform != "linux" or hasattr(sys, "getandroidapilevel"):
     pytest.skip("Skipping Linux-only tests", allow_module_level=True)
 
 

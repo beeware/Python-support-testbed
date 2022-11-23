@@ -25,9 +25,6 @@ test_requires = [
     "pytest",
 ]
 
-# FIXME: Use the PR962-compatible branch
-template_branch = "testcase2"
-
 [tool.briefcase.app.testbed.macOS]
 requires = [
     "rubicon-objc",
@@ -111,6 +108,11 @@ requires = [
     # Android doesn't provide the zoneinfo TZ database; use the Python provided one
     "tzdata",
 ]
+
+build_gradle_extra_content = """
+android.defaultConfig.python.pyc.src false
+"""
+
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
 

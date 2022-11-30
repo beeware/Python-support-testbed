@@ -109,6 +109,7 @@ requires = [
     "tzdata",
 ]
 
+# TODO: replace with extractPackages
 build_gradle_extra_content = """
 android.defaultConfig.python.pyc.src false
 """

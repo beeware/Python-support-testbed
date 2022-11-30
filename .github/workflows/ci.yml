@@ -95,9 +95,8 @@ jobs:
     - name: Install dependencies
       run: |
         ${{ matrix.pre-command }}
-        # Temp: Use the PR962 branch
-        # pip install briefcase
-        pip install git+https://github.com/freakboy3742/briefcase.git@test-mode
+        # Use the development version of Briefcase
+        pip install git+https://github.com/beeware/briefcase.git
     - name: Test App
       run: |
         briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-run-args }}

@@ -53,8 +53,8 @@ def test_gdk():
     gi.require_version("Gdk", "3.0")
     from gi.repository import Gdk
 
-    color = Gdk.Color(37, 42, 69)
-    assert color.to_string() == "#0025002a0045"
+    color = Gdk.RGBA(0.37, 0.42, 0.69, 0.5)
+    assert color.to_string() == "rgba(94,107,176,0.5)"
 
 
 def test_gtk():

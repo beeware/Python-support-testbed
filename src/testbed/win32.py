@@ -1,24 +1,21 @@
-###########################################################################
-# Linux specific tests
-###########################################################################
-import os
-import sys
+######################################################################
+# Windows App main loop
+#######################################################################
+import clr
 
-from .utils import assert_
+clr.AddReference("System.Windows.Forms")
 
-
-def exit(failures):
-    sys.exit(failures)
+import System.Windows.Forms as WinForms  # noqa; E402
 
 
-def test_pythonnet():
-    "Python.net integration works as expected"
-    # Set up CLR
-    import clr
-    clr.AddReference("System.Windows.Forms")
+class TestBed(WinForms.Form):
+    def __init__(self):
+        super().__init__()
 
-    # Now use CLR libraries
-    from System.Drawing import Image
+    def run(self):
+        WinForms.Application.Run(self)
 
-    image = Image.FromFile(os.path.join(os.path.dirname(__file__), "resources", "test-pattern.png"))
-    assert_((image.Size.Width, image.Size.Height) == (1366, 768))
+
+def main_loop():
+    form = TestBed()
+    WinForms.Application.Run(form)

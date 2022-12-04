@@ -1,20 +1,28 @@
-###########################################################################
-# Android specific tests
-###########################################################################
-from .utils import assert_
+######################################################################
+# Android App main loop
+#
+# The main loop itself is a no-op; however we need a PythonAppDelegate
+# to satisfy the app stub.
+#######################################################################
+from rubicon.java import JavaClass, JavaInterface
+
+# The Android cookiecutter template creates an app whose main Activity is
+# called `MainActivity`. The activity assumes that we will store a reference
+# to an implementation/subclass of `IPythonApp` in it.
+MainActivity = JavaClass("org/beeware/android/MainActivity")
+
+# The `IPythonApp` interface in Java allows Python code to
+# run on Android activity lifecycle hooks such as `onCreate()`.
+IPythonApp = JavaInterface("org/beeware/android/IPythonApp")
 
 
-# Don't quit the process at the end of the suite.
-def exit(failures):
+class PythonApp(IPythonApp):
+    def __init__(self, app):
+        super().__init__()
+        self._impl = app
+        MainActivity.setPythonApp(self)
+        print("Python app launched & stored in Android Activity class")
+
+
+def main_loop():
     pass
-
-
-def test_ctypes():
-    "The FFI module has been compiled, and ctypes works on Java objects"
-    from rubicon.java import JavaClass
-
-    URL = JavaClass("java/net/URL")
-
-    sample_url = URL("https://beeware.org/contributing")
-
-    assert_(sample_url.getHost() == "beeware.org")

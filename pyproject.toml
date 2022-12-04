@@ -11,13 +11,18 @@ author_email = "russell@beeware.org"
 formal_name = "Testbed"
 description = "A testbed for the Apple Support packages."
 icon = "src/testbed/resources/testbed"
-sources = ['src/testbed']
+sources = ["src/testbed"]
+test_sources = ["tests"]
+
 requires = [
     "cryptography",
     "lru_dict",
     "pillow",
     "numpy",
     "pandas",
+]
+test_requires = [
+    "pytest",
 ]
 
 [tool.briefcase.app.testbed.macOS]
@@ -30,7 +35,7 @@ requires = [
 [tool.briefcase.app.testbed.macOS.app]
 # template = "../../templates/briefcase-macOS-app-template"
 
-[tool.briefcase.app.testbed.macOS.xcode]
+[tool.briefcase.app.testbed.macOS.Xcode]
 # template = "../../templates/briefcase-macOS-Xcode-template"
 
 [tool.briefcase.app.testbed.linux]
@@ -103,5 +108,16 @@ requires = [
     # Android doesn't provide the zoneinfo TZ database; use the Python provided one
     "tzdata",
 ]
+
+# TODO: replace with extractPackages
+build_gradle_extra_content = """
+android.defaultConfig.python.pyc.src false
+"""
+
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
+
+[tool.isort]
+profile = "black"
+split_on_trailing_comma = true
+combine_as_imports = true

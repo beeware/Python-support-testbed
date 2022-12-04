@@ -2,6 +2,7 @@
 # Common tests
 ###########################################################################
 import importlib
+import locale
 import sys
 
 import pytest
@@ -324,6 +325,33 @@ def test_tempfile():
         # Reset the file pointer to 0 and read back the content
         f.seek(0)
         assert f.read() == msg
+
+
+def test_utf8_encoding():
+    "The Python interpreter is pre-configured with the correct encoding"
+
+    # The default locale is UTF-8
+    assert locale.getpreferredencoding(False).lower() == "utf-8"
+
+    # Confirm that sys.stdout and sys.stderr have UTF encoding.
+    # utf-8 is the encoding for systems that write directly to console;
+    # utf-16-le/be will be the encoding when std-nslog is being used.
+    assert sys.stdout.encoding.lower() in {"utf-8", "utf-16-le", "utf-16-be"}
+    assert sys.stderr.encoding.lower() in {"utf-8", "utf-16-le", "utf-16-be"}
+
+    # Print some actual content to the *original* stdout/stderr
+    # file handles. On success, this content will be swallowed by the
+    # test runner; however, if the encoding isn't correct, the print
+    # statement will raise a UnicodeEncodeError. On success, no error
+    # will be raised.
+    try:
+        print("Hëllø worłd 你好世界 (stdout)", file=sys.__stdout__)
+    except UnicodeEncodeError:
+        pytest.fail("stdout does not have the correct encoding")
+    try:
+        print("Hëllø worłd 你好世界 (stderr)", file=sys.__stderr__)
+    except UnicodeEncodeError:
+        pytest.fail("stderr does not have the correct encoding")
 
 
 def test_uuid():

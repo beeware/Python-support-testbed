@@ -103,3 +103,9 @@ jobs:
     - name: Package
       run: |
         briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign
+    - uses: actions/upload-artifact@v3
+      name: Upload logs
+      if: failure()
+      with:
+        name: build-failure-logs-${{ matrix.backend }}-${{ matrix.python-version }}
+        path: logs/*

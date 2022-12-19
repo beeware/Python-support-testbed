@@ -33,7 +33,7 @@ def run_tests():
         chaquopy_extract_package(tests)
     ##################################################################
 
-    pytest.main(
+    returncode = pytest.main(
         [
             # Turn up verbosity
             "-vv",
@@ -45,6 +45,8 @@ def run_tests():
             project_path / "tests",
         ]
     )
+
+    print(f">>>>>>>>>> EXIT {returncode} <<<<<<<<<<")
 
 
 if __name__ == "__main__":

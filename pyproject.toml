@@ -109,11 +109,6 @@ requires = [
     "tzdata",
 ]
 
-# TODO: replace with extractPackages
-build_gradle_extra_content = """
-android.defaultConfig.python.pyc.src false
-"""
-
 # support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
 

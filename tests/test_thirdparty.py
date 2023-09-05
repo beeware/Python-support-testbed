@@ -132,13 +132,19 @@ def test_numpy():
 
 def test_pandas():
     "Pandas DataFrames can be created"
-    from pandas import DataFrame
+    from pandas import DataFrame, __version__
 
     # Another high profile package, with a dependency on numpy
     df = DataFrame(
         [("alpha", 1), ("bravo", 2), ("charlie", 3)], columns=["Letter", "Number"]
     )
 
-    assert (
-        ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-    ) == df.to_csv(lineterminator="\n")
+    # Pandas 1.5 changed the API for to_csv()
+    if tuple(int(v) for v in __version__.split(".")) < (1, 5):
+        assert (
+            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
+        ) == df.to_csv(line_terminator="\n")
+    else:
+        assert (
+            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
+        ) == df.to_csv(lineterminator="\n")

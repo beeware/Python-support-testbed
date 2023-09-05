@@ -11,7 +11,3 @@ UIResponder = ObjCClass("UIResponder")
 
 class PythonAppDelegate(UIResponder):
     pass
-
-
-def main_loop():
-    pass

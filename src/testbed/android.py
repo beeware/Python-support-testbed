@@ -22,7 +22,3 @@ class PythonApp(IPythonApp):
         self._impl = app
         MainActivity.setPythonApp(self)
         print("Python app launched & stored in Android Activity class")
-
-
-def main_loop():
-    pass

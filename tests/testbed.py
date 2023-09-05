@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+from testbed.app import main as app_main
+
 
 def run_tests():
     project_path = Path(__file__).parent.parent
@@ -25,4 +27,7 @@ def run_tests():
 
 
 if __name__ == "__main__":
+    # Run the app main to stimulate app creation and logging of test conditions.
+    app_main()
+    # Run the actual test suite.
     run_tests()

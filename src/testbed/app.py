@@ -14,7 +14,6 @@ def main():
         module_path = ".android"
     else:
         module_path = f".{sys.platform}"
-    platform_module = importlib.import_module(module_path, "testbed")
 
-    # Run the main_loop() for the platform
-    platform_module.main_loop()
+    # Import the platform module, so we get any import side effects.
+    importlib.import_module(module_path, "testbed")

@@ -61,7 +61,7 @@ system_runtime_requires = [
 ]
 
 [tool.briefcase.app.testbed.linux.appimage]
-manylinux = "manylinux_2_17"
+manylinux = "manylinux_2_28"
 requires = [
     '--no-binary', ':all:'
 ]

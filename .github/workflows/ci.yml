@@ -27,7 +27,6 @@ jobs:
         backend:
           - "macOS-Xcode"
           - "macOS-app"
-          - "linux-system"
           - "linux-appimage"
           - "linux-flatpak"
           - "windows-VisualStudio"
@@ -36,7 +35,7 @@ jobs:
           - "android"
         python-version: [ "3.8", "3.9", "3.10", "3.11" ]
         include:
-          - runs-on: ubuntu-22.04
+          - runs-on: ubuntu-latest
           - pre-command:
           - briefcase-target:
           - briefcase-run-args:
@@ -50,17 +49,17 @@ jobs:
             briefcase-target: "macOS app"
 
           - backend: linux-system
-            runs-on: ubuntu-22.04
-            pre-command: "sudo apt-get update -y && sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config"
-            briefcase-target: "linux system"
+            runs-on: ubuntu-latest
+            python-version: "3.10"
+            briefcase-target: "linux system --target ubuntu:22.04"
 
           - backend: linux-appimage
-            runs-on: ubuntu-22.04
+            runs-on: ubuntu-latest
             pre-command: "sudo apt-get update -y && sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config libfuse2"
             briefcase-target: "linux appimage"
 
           - backend: linux-flatpak
-            runs-on: ubuntu-22.04
+            runs-on: ubuntu-latest
             pre-command: "sudo apt-get update -y && sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config flatpak flatpak-builder"
             briefcase-target: "linux flatpak"
 

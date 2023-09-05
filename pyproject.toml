@@ -84,6 +84,8 @@ system_requires = [
     "gvfs-client",
     # Needed to compile Pillow
     "libjpeg-devel",
+    # Needed to compile Cryptography
+    "openssl-devel",
 ]
 
 linuxdeploy_plugins = [

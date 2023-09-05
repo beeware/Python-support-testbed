@@ -3,8 +3,22 @@
 ###########################################################################
 import os
 import sys
+from pathlib import Path
 
 import pytest
+
+
+def test_module_paths():
+    "Third party binary modules have meaningful __file__ attributes"
+    import PIL
+    from PIL import _imaging
+
+    # iOS and Android both play shenanigans with binary locations.
+    # Make sure the __file__ attribute on the binary module reflects
+    # the actual location in the file system. The base PIL module is
+    # pure Python; the binary module for PIL._imaging should be in
+    # the same folder.
+    assert Path(_imaging.__file__).parent == Path(PIL.__file__).parent
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="cffi not available on windows")

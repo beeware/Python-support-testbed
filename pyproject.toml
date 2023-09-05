@@ -10,6 +10,10 @@ author_email = "russell@beeware.org"
 [tool.briefcase.app.testbed]
 formal_name = "Testbed"
 description = "A testbed for the Apple Support packages."
+long_description = """A test of common use cases and known problems with bundled apps.
+
+Validates 3rd party module loading, as well as basic app packaging.
+"""
 icon = "src/testbed/resources/testbed"
 sources = ["src/testbed"]
 test_sources = ["tests"]
@@ -63,7 +67,7 @@ system_runtime_requires = [
 [tool.briefcase.app.testbed.linux.appimage]
 manylinux = "manylinux_2_28"
 requires = [
-    '--no-binary', ':all:'
+    '--no-binary', ':all:',
 ]
 
 system_requires = [

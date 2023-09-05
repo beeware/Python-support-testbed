@@ -10,7 +10,7 @@ if sys.platform != "linux" or hasattr(sys, "getandroidapilevel"):
     pytest.skip("Skipping Linux-only tests", allow_module_level=True)
 
 
-@pytest.skip("GNU DBM not provided by Standalone Python")
+@pytest.mark.skip("GNU DBM not provided by Standalone Python")
 def test_dbm_gdbm():
     "The GNU DBM module has been compiled and works"
     import tempfile

@@ -67,18 +67,17 @@ requires = [
 ]
 
 system_requires = [
-    # Required for GTK/PyGObject tests
-    'gir1.2-gtk-3.0',
-    'libgirepository1.0-dev',
-    # Required for pycairo
-    'libcairo2-dev',
-    # Required for Pillow
-    'libjpeg-dev',
-    'libpng-dev',
-    'libtiff-dev',
-    # Required to install Rust
-    'curl',
-    'libssl-dev',
+    # Needed to compile pycairo wheel
+    "cairo-gobject-devel",
+    # Needed to compile PyGObject wheel
+    "gobject-introspection-devel",
+    # Needed to provide GTK
+    "gtk3-devel",
+    # Dependencies that GTK looks for at runtime, that need to be
+    # in the build environment to be picked up by linuxdeploy
+    "libcanberra-gtk3",
+    "PackageKit-gtk3-module",
+    "gvfs-client",
 ]
 
 linuxdeploy_plugins = [

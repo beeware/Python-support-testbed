@@ -82,6 +82,8 @@ system_requires = [
     "libcanberra-gtk3",
     "PackageKit-gtk3-module",
     "gvfs-client",
+    # Needed to compile Pillow
+    "libjpeg-devel",
 ]
 
 linuxdeploy_plugins = [
@@ -91,7 +93,18 @@ linuxdeploy_plugins = [
 dockerfile_extra_content = """
 # Install Rust (required for cryptography)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/home/brutus/.cargo/bin:${PATH}"
+# Set up C++ compiler (required for numpy)
+ENV CXX="g++ -pthread"
+ENV AR=ar
+# Add a symlink for python->python3 (needed for pandas)
+# Pandas *requires* that the Python binary be called `python`, not `python3`.
+# However, Python-standalone *only* provides `python3`, and at runtime, we
+# only need `python3`. We can't (easily) reconfigure the Meson build for Pandas,
+# so we put a symlink in `brutus`'s bin path.
+RUN mkdir -p /home/brutus/bin
+RUN ln -si /app/Testbed.AppDir/usr/python/bin/python3 /home/brutus/bin/python
+# Set the path to include all the things we've installed.
+ENV PATH="/home/brutus/bin:/home/brutus/.cargo/bin:${PATH}"
 """
 
 # support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"

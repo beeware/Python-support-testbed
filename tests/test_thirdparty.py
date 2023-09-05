@@ -3,7 +3,6 @@
 ###########################################################################
 import os
 import sys
-import warnings
 
 import pytest
 
@@ -21,7 +20,7 @@ def test_cffi():
 
 def test_cryptography():
     "The cryptography module can be used"
-    # Cryptography is a common binary library that uses cffi and OpenSSL (1.1.1) internally
+    # Cryptography is a common binary library that uses cffi and OpenSSL internally
     from textwrap import dedent
 
     from cryptography import x509
@@ -126,10 +125,6 @@ def test_pandas():
         [("alpha", 1), ("bravo", 2), ("charlie", 3)], columns=["Letter", "Number"]
     )
 
-    with warnings.catch_warnings():
-        # Pandas 1.5 changed the `line_terminator` argument to `lineterminator`
-        warnings.filterwarnings("ignore", category=FutureWarning)
-
-        assert (
-            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-        ) == df.to_csv(line_terminator="\n")
+    assert (
+        ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
+    ) == df.to_csv(lineterminator="\n")

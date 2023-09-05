@@ -95,7 +95,7 @@ linuxdeploy_plugins = [
 dockerfile_extra_content = """
 # Install Rust (required for cryptography)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# Set up C++ compiler (required for numpy)
+# Set up compilers (required for numpy)
 ENV CXX="g++ -pthread"
 ENV AR=ar
 # Add a symlink for python->python3 (needed for pandas)

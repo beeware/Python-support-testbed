@@ -15,9 +15,9 @@ def test_module_paths():
 
     # iOS and Android both play shenanigans with binary locations.
     # Make sure the __file__ attribute on the binary module reflects
-    # the actual location in the file system. The base PIL module is
-    # pure Python; the binary module for PIL._imaging should be in
-    # the same folder.
+    # its package's location in the file system. The base PIL module is
+    # pure Python; the binary module for PIL._imaging should *appear*
+    # to be in the same folder (although in practice, it may not be).
     assert Path(_imaging.__file__).parent == Path(PIL.__file__).parent
 
 

@@ -141,10 +141,10 @@ def test_pandas():
 
     # Pandas 1.5 changed the API for to_csv()
     if tuple(int(v) for v in __version__.split(".")) < (1, 5):
-        assert (
-            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-        ) == df.to_csv(line_terminator="\n")
+        kwargs = dict(line_terminator="\n")
     else:
-        assert (
-            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-        ) == df.to_csv(lineterminator="\n")
+        kwargs = dict(lineterminator="\n")
+
+    assert (
+        ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
+    ) == df.to_csv(**kwargs)

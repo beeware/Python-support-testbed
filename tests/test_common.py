@@ -184,10 +184,12 @@ def test_dbm_dumb():
 
 
 @pytest.mark.skipif(
-    hasattr(sys, "getandroidapilevel"), reason="NDBM not available on Android"
+    hasattr(sys, "getandroidapilevel"),
+    reason="NDBM not available on Android",
 )
 @pytest.mark.skipif(
-    sys.platform == "linux", reason="NDBM not universally available on Linux"
+    sys.platform == "linux",
+    reason="NDBM not universally available on Linux",
 )
 @pytest.mark.skipif(sys.platform == "win32", reason="NDBM not available on Windows")
 def test_dbm_ndbm():

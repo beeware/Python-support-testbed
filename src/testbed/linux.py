@@ -1,14 +1,3 @@
 ######################################################################
-# Linux App main loop
+# No Linux App configuration required
 #######################################################################
-import gi
-
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk  # noqa; E402
-
-
-def main_loop():
-    win = Gtk.Window()
-    win.connect("destroy", Gtk.main_quit)
-    win.show_all()
-    Gtk.main()

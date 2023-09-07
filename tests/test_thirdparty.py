@@ -3,9 +3,22 @@
 ###########################################################################
 import os
 import sys
-import warnings
+from pathlib import Path
 
 import pytest
+
+
+def test_module_paths():
+    "Third party binary modules have meaningful __file__ attributes"
+    import PIL
+    from PIL import _imaging
+
+    # iOS and Android both play shenanigans with binary locations.
+    # Make sure the __file__ attribute on the binary module reflects
+    # its package's location in the file system. The base PIL module is
+    # pure Python; the binary module for PIL._imaging should *appear*
+    # to be in the same folder (although in practice, it may not be).
+    assert Path(_imaging.__file__).parent == Path(PIL.__file__).parent
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="cffi not available on windows")
@@ -21,7 +34,7 @@ def test_cffi():
 
 def test_cryptography():
     "The cryptography module can be used"
-    # Cryptography is a common binary library that uses cffi and OpenSSL (1.1.1) internally
+    # Cryptography is a common binary library that uses cffi and OpenSSL internally
     from textwrap import dedent
 
     from cryptography import x509
@@ -119,17 +132,19 @@ def test_numpy():
 
 def test_pandas():
     "Pandas DataFrames can be created"
-    from pandas import DataFrame
+    from pandas import DataFrame, __version__
 
     # Another high profile package, with a dependency on numpy
     df = DataFrame(
         [("alpha", 1), ("bravo", 2), ("charlie", 3)], columns=["Letter", "Number"]
     )
 
-    with warnings.catch_warnings():
-        # Pandas 1.5 changed the `line_terminator` argument to `lineterminator`
-        warnings.filterwarnings("ignore", category=FutureWarning)
+    # Pandas 1.5 changed the API for to_csv()
+    if tuple(int(v) for v in __version__.split(".")) < (1, 5):
+        kwargs = dict(line_terminator="\n")
+    else:
+        kwargs = dict(lineterminator="\n")
 
-        assert (
-            ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-        ) == df.to_csv(line_terminator="\n")
+    assert (
+        ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
+    ) == df.to_csv(**kwargs)

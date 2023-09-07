@@ -10,6 +10,10 @@ author_email = "russell@beeware.org"
 [tool.briefcase.app.testbed]
 formal_name = "Testbed"
 description = "A testbed for the Apple Support packages."
+long_description = """A test of common use cases and known problems with bundled apps.
+
+Validates 3rd party module loading, as well as basic app packaging.
+"""
 icon = "src/testbed/resources/testbed"
 sources = ["src/testbed"]
 test_sources = ["tests"]
@@ -44,24 +48,44 @@ requires=[
     'pygobject',
 ]
 
+[tool.briefcase.app.testbed.linux.system.debian]
+system_requires = [
+    # Needed to compile pycairo wheel
+    "libcairo2-dev",
+    # Needed to compile PyGObject wheel
+    "libgirepository1.0-dev",
+]
+
+system_runtime_requires = [
+    # Needed to provide GTK and its GI bindings
+    "gir1.2-gtk-3.0",
+    "libgirepository-1.0-1",
+    # Dependencies that GTK looks for at runtime
+    "libcanberra-gtk3-module",
+]
+
 [tool.briefcase.app.testbed.linux.appimage]
-requires=[
-    '--no-binary', ':all:'
+manylinux = "manylinux_2_28"
+requires = [
+    '--no-binary', ':all:',
 ]
 
 system_requires = [
-    # Required for GTK/PyGObject tests
-    'gir1.2-gtk-3.0',
-    'libgirepository1.0-dev',
-    # Required for pycairo
-    'libcairo2-dev',
-    # Required for Pillow
-    'libjpeg-dev',
-    'libpng-dev',
-    'libtiff-dev',
-    # Required to install Rust
-    'curl',
-    'libssl-dev',
+    # Needed to compile pycairo wheel
+    "cairo-gobject-devel",
+    # Needed to compile PyGObject wheel
+    "gobject-introspection-devel",
+    # Needed to provide GTK
+    "gtk3-devel",
+    # Dependencies that GTK looks for at runtime, that need to be
+    # in the build environment to be picked up by linuxdeploy
+    "libcanberra-gtk3",
+    "PackageKit-gtk3-module",
+    "gvfs-client",
+    # Needed to compile Pillow
+    "libjpeg-devel",
+    # Needed to compile Cryptography
+    "openssl-devel",
 ]
 
 linuxdeploy_plugins = [
@@ -71,13 +95,28 @@ linuxdeploy_plugins = [
 dockerfile_extra_content = """
 # Install Rust (required for cryptography)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/home/brutus/.cargo/bin:${PATH}"
+# Set up compilers (required for numpy)
+ENV CXX="g++ -pthread"
+ENV AR=ar
+# Add a symlink for python->python3 (needed for pandas)
+# Pandas *requires* that the Python binary be called `python`, not `python3`.
+# However, Python-standalone *only* provides `python3`, and at runtime, we
+# only need `python3`. We can't (easily) reconfigure the Meson build for Pandas,
+# so we put a symlink in `brutus`'s bin path.
+RUN mkdir -p /home/brutus/bin
+RUN ln -si /app/Testbed.AppDir/usr/python/bin/python3 /home/brutus/bin/python
+# Set the path to include all the things we've installed.
+ENV PATH="/home/brutus/bin:/home/brutus/.cargo/bin:${PATH}"
 """
 
 # support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
 # template = "../../templates/briefcase-linux-appimage-template"
 
 [tool.briefcase.app.testbed.linux.flatpak]
+flatpak_runtime = "org.gnome.Platform"
+flatpak_runtime_version = "44"
+flatpak_sdk = "org.gnome.Sdk"
+
 # template = "../../templates/briefcase-linux-flatpak-template"
 
 [tool.briefcase.app.testbed.windows]

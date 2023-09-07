@@ -1,8 +1,5 @@
 ######################################################################
-# Android App main loop
-#
-# The main loop itself is a no-op; however we need a PythonAppDelegate
-# to satisfy the app stub.
+# Android App configuration
 #######################################################################
 from rubicon.java import JavaClass, JavaInterface
 
@@ -22,7 +19,3 @@ class PythonApp(IPythonApp):
         self._impl = app
         MainActivity.setPythonApp(self)
         print("Python app launched & stored in Android Activity class")
-
-
-def main_loop():
-    pass

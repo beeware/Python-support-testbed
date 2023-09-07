@@ -1,8 +1,5 @@
 ######################################################################
-# Android App main loop
-#
-# The main loop itself is a no-op; however we need a PythonAppDelegate
-# to satisfy the app stub.
+# Android App configuration
 #######################################################################
 from rubicon.java import JavaClass, JavaInterface
 

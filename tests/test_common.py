@@ -148,6 +148,16 @@ def test_stdlib_modules():
     ), f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
 
 
+def test_sysconfig_data():
+    "sysconfigdata can be obtained for the platform"
+    import sysconfig
+
+    # Assert that the config exists and isn't empty. The contents is platform dependent,
+    # but we just need to know the module was found.
+    config_vars = sysconfig.get_config_vars()
+    assert len(config_vars.keys()) > 20
+
+
 def test_bzip2():
     "BZip2 compression with the bz2 module works"
     import bz2

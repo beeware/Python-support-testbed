@@ -19,6 +19,8 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
+    # Provide a source of binary wheels that aren't provided on PyPI.
+    "--find-links", "./wheels",
     "cryptography",
     "lru_dict",
     "pillow",

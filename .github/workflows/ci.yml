@@ -37,7 +37,7 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
         include:
           - runs-on: ubuntu-latest
           - pre-command:
@@ -87,12 +87,12 @@ jobs:
             briefcase-run-args: " -d '{\"avd\":\"beePhone\"}' --Xemulator=-no-window --Xemulator=-no-snapshot --Xemulator=-no-audio --Xemulator=-no-boot-anim --shutdown-on-exit"
 
         exclude:
-          # Binary packages aren't available for 3.11 on mobile yet
+          # Binary packages aren't available for 3.11+ on Android yet
           - backend: "android"
             python-version: "3.11"
 
-          - backend: "iOS"
-            python-version: "3.11"
+          - backend: "android"
+            python-version: "3.12"
 
     steps:
     - uses: actions/checkout@v4.0.0

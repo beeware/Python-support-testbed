@@ -94,6 +94,10 @@ jobs:
           - backend: "android"
             python-version: "3.12"
 
+            # Support packages for Flatpak aren't available for 3.12+ on Linux yet
+          - backend: "linux-flatpak"
+            python-version: "3.12"
+
     steps:
     - uses: actions/checkout@v4.0.0
       with:

@@ -22,7 +22,11 @@ def main():
     print(f"{platform.uname()=}")
     print("-" * 80)
     print(f"{os.name=}")
-    print(f"{os.uname()=}")
+    if hasattr(os, "uname"):
+        print(f"{os.uname()=}")
+    else:
+        # Windows
+        print("os.uname() not available")
     print("=" * 80)
 
     # Load the platform module

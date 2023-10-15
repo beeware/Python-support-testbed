@@ -19,7 +19,6 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
-    # Provide a source of binary wheels that aren't provided on PyPI.
     "cryptography",
     "lru_dict",
     "pillow",
@@ -32,6 +31,7 @@ test_requires = [
 
 [tool.briefcase.app.testbed.macOS]
 requires = [
+    # Provide a source of binary wheels that aren't provided on PyPI.
     "--find-links", "./wheels",
     "rubicon-objc",
     "std-nslog",

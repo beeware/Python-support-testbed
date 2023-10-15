@@ -3,3 +3,4 @@ __pycache__/
 *.dist-info/
 build/
 logs/
+.DS_Store

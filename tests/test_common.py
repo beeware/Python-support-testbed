@@ -57,7 +57,7 @@ def test_bootstrap_modules():
 
 
 def test_stdlib_modules():
-    "All the stdlib modules exist"
+    "All the stdlib binary modules exist"
     missing = []
     all_modules = [
         "_asyncio",
@@ -95,9 +95,6 @@ def test_stdlib_modules():
         "syslog",
         "termios",
         "unicodedata",
-        # Scheduled for deprecation
-        "_crypt",
-        "audioop",
     ]
 
     # Modules added in 3.8
@@ -106,6 +103,15 @@ def test_stdlib_modules():
     # Modules added in 3.11
     if sys.version_info >= (3, 11):
         all_modules.extend(["_typing"])
+
+    # Modules removed in 3.13
+    if sys.version_info < (3, 13):
+        all_modules.extend(
+            [
+                "_crypt",
+                "audioop",
+            ]
+        )
 
     # Modules that do not exist on Android
     if hasattr(sys, "getandroidapilevel"):

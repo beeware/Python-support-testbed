@@ -37,7 +37,7 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13-dev" ]
         include:
           - runs-on: ubuntu-latest
           - pre-command:
@@ -87,16 +87,19 @@ jobs:
             briefcase-run-args: " -d '{\"avd\":\"beePhone\"}' --Xemulator=-no-window --Xemulator=-no-snapshot --Xemulator=-no-audio --Xemulator=-no-boot-anim --shutdown-on-exit"
 
         exclude:
-          # Binary packages aren't available for 3.11+ on Android yet
-          - backend: "android"
-            python-version: "3.11"
-
+          # Binary packages aren't available for 3.12+ on Android yet
           - backend: "android"
             python-version: "3.12"
 
-            # Support packages for Flatpak aren't available for 3.12+ on Linux yet
+          - backend: "android"
+            python-version: "3.13-dev"
+
+          # Support packages for Flatpak aren't available for 3.12+ on Linux yet
           - backend: "linux-flatpak"
             python-version: "3.12"
+
+          - backend: "linux-flatpak"
+            python-version: "3.13-dev"
 
     steps:
     - uses: actions/checkout@v4.1.0

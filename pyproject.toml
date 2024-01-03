@@ -19,11 +19,11 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
-    "cryptography",
-    "lru_dict",
-    "pillow",
-    "numpy",
-    "pandas",
+    "cryptography; python_version < '3.13'",
+    "lru_dict; python_version < '3.13'",
+    "pillow; python_version < '3.13'",
+    "numpy; python_version < '3.13'",
+    "pandas; python_version < '3.13'",
 ]
 test_requires = [
     "pytest",

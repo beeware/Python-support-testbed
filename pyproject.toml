@@ -23,7 +23,9 @@ requires = [
     "lru_dict",
     "pillow",
     "numpy",
-    "pandas",
+    # Pandas 2.2.2 doesn't publish ARM64 macOS wheels for Py 3.9 or 3.10
+    "pandas != 2.2.2; python_version < '3.11'",
+    "pandas; python_version >= '3.11'"
 ]
 test_requires = [
     "pytest",

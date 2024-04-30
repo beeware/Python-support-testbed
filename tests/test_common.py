@@ -96,7 +96,6 @@ def test_stdlib_modules():
         "termios",
         "unicodedata",
         # Scheduled for deprecation
-        "_crypt",
         "audioop",
     ]
 
@@ -110,7 +109,6 @@ def test_stdlib_modules():
     # Modules that do not exist on Android
     if hasattr(sys, "getandroidapilevel"):
         all_modules.remove("grp")
-        all_modules.remove("_crypt")
 
     # Modules that do not exist on iOS
     if sys.platform == "ios":
@@ -121,7 +119,6 @@ def test_stdlib_modules():
 
     # Modules that do not exist on Windows
     if sys.platform == "win32":
-        all_modules.remove("_crypt")
         all_modules.remove("_posixsubprocess")
         all_modules.remove("fcntl")
         all_modules.remove("grp")

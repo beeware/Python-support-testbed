@@ -6,9 +6,17 @@ on:
       - main
   workflow_call:
 
+# Cancel active CI runs for a PR before starting another run
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 defaults:
   run:
-    shell: bash  # https://github.com/beeware/briefcase/pull/912
+    shell: bash
+
+env:
+  FORCE_COLOR: "1"
 
 jobs:
   pre-commit:
@@ -55,17 +63,17 @@ jobs:
           - backend: linux-system
             runs-on: ubuntu-latest
             python-version: "system"
-            pre-command: "sudo apt-get install -qq python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config"
+            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0"
             briefcase-target: "linux system"
 
           # - backend: linux-appimage
           #   runs-on: ubuntu-latest
-          #   pre-command: "sudo apt-get install -y python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config libfuse2"
+          #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends libfuse2 libthai-dev libegl1"
           #   briefcase-target: "linux appimage"
 
           - backend: linux-flatpak
             runs-on: ubuntu-latest
-            pre-command: "sudo apt-get install -qq python3-gi python3-gi-cairo gir1.2-gtk-3.0 python3-dev libgirepository1.0-dev libcairo2-dev pkg-config flatpak flatpak-builder"
+            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends flatpak flatpak-builder elfutils"
             briefcase-target: "linux flatpak"
 
           - backend: windows-VisualStudio
@@ -84,43 +92,37 @@ jobs:
           - backend: android
             runs-on: ubuntu-latest
             briefcase-target: "android"
+            briefcase-run-args: >
+              --device '{"avd":"beePhone"}'
+              --Xemulator=-no-window
+              --Xemulator=-no-snapshot
+              --Xemulator=-no-audio
+              --Xemulator=-no-boot-anim
+              --shutdown-on-exit
             pre-command: |
-              # check if virtualization is supported...
-              sudo apt install -qq --no-install-recommends cpu-checker coreutils && echo "CPUs=$(nproc --all)" && kvm-ok
               # allow access to KVM to run the emulator
               echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
                 | sudo tee /etc/udev/rules.d/99-kvm4all.rules
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
-            briefcase-run-args: " -d '{\"avd\":\"beePhone\"}' --Xemulator=-no-window --Xemulator=-no-snapshot --Xemulator=-no-audio --Xemulator=-no-boot-anim --shutdown-on-exit"
-
         exclude:
           # Binary packages aren't available for 3.12+ on Android yet
-          - backend: "android"
+          - backend: android
             python-version: "3.12"
-
-          - backend: "android"
-            python-version: "3.13-dev"
-
-          # Support packages for Flatpak aren't available for 3.12+ on Linux yet
-          - backend: "linux-flatpak"
-            python-version: "3.12"
-
-          - backend: "linux-flatpak"
-            python-version: "3.13-dev"
 
     steps:
-    - uses: actions/checkout@v4.1.0
+    - name: Checkout
+      uses: actions/checkout@v4.1.7
       with:
         fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v4.7.1
+      uses: actions/setup-python@v5.1.1
       if: matrix.python-version != 'system'
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: ${{ matrix.pre-command }}
 
     - name: Install Briefcase
@@ -132,8 +134,8 @@ jobs:
     - name: Package
       run: briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign
 
-    - name: Upload logs
-      uses: actions/upload-artifact@v3.1.3
+    - name: Upload Logs
+      uses: actions/upload-artifact@v4.3.4
       if: failure()
       with:
         name: build-failure-logs-${{ matrix.backend }}-${{ matrix.python-version }}

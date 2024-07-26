@@ -66,57 +66,9 @@ system_runtime_requires = [
     "libcanberra-gtk3-module",
 ]
 
-[tool.briefcase.app.testbed.linux.appimage]
-manylinux = "manylinux_2_28"
-requires = [
-    '--no-binary', ':all:',
-]
-
-system_requires = [
-    # Needed to compile pycairo wheel
-    "cairo-gobject-devel",
-    # Needed to compile PyGObject wheel
-    "gobject-introspection-devel",
-    # Needed to provide GTK
-    "gtk3-devel",
-    # Dependencies that GTK looks for at runtime, that need to be
-    # in the build environment to be picked up by linuxdeploy
-    "libcanberra-gtk3",
-    "PackageKit-gtk3-module",
-    "gvfs-client",
-    # Needed to compile Pillow
-    "libjpeg-devel",
-    # Needed to compile Cryptography
-    "openssl-devel",
-]
-
-linuxdeploy_plugins = [
-    'DEPLOY_GTK_VERSION=3 gtk',
-]
-
-dockerfile_extra_content = """
-# Install Rust (required for cryptography)
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# Set up compilers (required for numpy)
-ENV CXX="g++ -pthread"
-ENV AR=ar
-# Add a symlink for python->python3 (needed for pandas)
-# Pandas *requires* that the Python binary be called `python`, not `python3`.
-# However, Python-standalone *only* provides `python3`, and at runtime, we
-# only need `python3`. We can't (easily) reconfigure the Meson build for Pandas,
-# so we put a symlink in `brutus`'s bin path.
-RUN mkdir -p /home/brutus/bin
-RUN ln -si /app/Testbed.AppDir/usr/python/bin/python3 /home/brutus/bin/python
-# Set the path to include all the things we've installed.
-ENV PATH="/home/brutus/bin:/home/brutus/.cargo/bin:${PATH}"
-"""
-
-# support_package = "../Python-linux-support/dist/Python-3.10-linux-x86_64-support.custom.tar.gz"
-# template = "../../templates/briefcase-linux-appimage-template"
-
 [tool.briefcase.app.testbed.linux.flatpak]
 flatpak_runtime = "org.gnome.Platform"
-flatpak_runtime_version = "44"
+flatpak_runtime_version = "45"
 flatpak_sdk = "org.gnome.Sdk"
 
 # template = "../../templates/briefcase-linux-flatpak-template"
@@ -145,7 +97,6 @@ requires = [
 
 [tool.briefcase.app.testbed.android]
 requires = [
-    "rubicon-java",
     # Android doesn't provide the zoneinfo TZ database; use the Python provided one
     "tzdata",
 ]

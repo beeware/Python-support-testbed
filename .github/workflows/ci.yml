@@ -45,7 +45,7 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13-dev" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13-dev" ]
         include:
           - runs-on: ubuntu-latest
           - pre-command:
@@ -109,6 +109,8 @@ jobs:
           # Binary packages aren't available for 3.12+ on Android yet
           - backend: android
             python-version: "3.12"
+          - backend: android
+            python-version: "3.13-dev"
 
     steps:
     - name: Checkout

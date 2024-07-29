@@ -3,7 +3,7 @@ project_name = "Testbed"
 bundle = "org.beeware"
 version = "0.0.1"
 url = "https://beeware.org"
-license = "BSD license"
+license.file = "LICENSE"
 author = 'Russell Keith-Magee'
 author_email = "russell@beeware.org"
 
@@ -36,10 +36,11 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
-# support_package = "../Python-Apple-support/dist/Python-3.8-macOS-support.custom.tar.gz"
+# support_package = "../Python-Apple-support/dist/Python-3.13-macOS-support.custom.tar.gz"
 
 [tool.briefcase.app.testbed.macOS.app]
 # template = "../../templates/briefcase-macOS-app-template"
+# stub_binary = "../../templates/briefcase-macOS-Xcode-template/stub/build/gui-stub/macos/xcode/build/Release/GUI Stub.app/Contents/MacOS/GUI Stub"
 
 [tool.briefcase.app.testbed.macOS.Xcode]
 # template = "../../templates/briefcase-macOS-Xcode-template"
@@ -92,7 +93,7 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
-# support_package = "../Python-Apple-support/dist/Python-3.8-iOS-support.custom.tar.gz"
+# support_package = "../Python-Apple-support/dist/Python-3.13-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
 
 [tool.briefcase.app.testbed.android]

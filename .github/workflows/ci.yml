@@ -131,6 +131,7 @@ jobs:
       uses: beeware/.github/.github/actions/install-briefcase@main
 
     - name: Test App
+      timeout-minutes: 15
       run: briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-run-args }}
 
     - name: Package

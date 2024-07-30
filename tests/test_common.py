@@ -104,15 +104,6 @@ def test_stdlib_modules():
     if sys.version_info >= (3, 11):
         all_modules.extend(["_typing"])
 
-    # Modules removed in 3.13
-    if sys.version_info < (3, 13):
-        all_modules.extend(
-            [
-                "_crypt",
-                "audioop",
-            ]
-        )
-
     # Modules that do not exist on Android
     if hasattr(sys, "getandroidapilevel"):
         all_modules.remove("grp")

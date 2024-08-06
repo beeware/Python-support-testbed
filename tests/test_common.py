@@ -57,7 +57,7 @@ def test_bootstrap_modules():
 
 
 def test_stdlib_modules():
-    "All the stdlib modules exist"
+    "All the stdlib binary modules exist"
     missing = []
     all_modules = [
         "_asyncio",
@@ -95,8 +95,6 @@ def test_stdlib_modules():
         "syslog",
         "termios",
         "unicodedata",
-        # Scheduled for deprecation
-        "audioop",
     ]
 
     # Modules added in 3.8

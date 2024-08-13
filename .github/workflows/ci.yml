@@ -106,8 +106,16 @@ jobs:
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
         exclude:
-          # Binary packages aren't available for 3.13+ on Android yet
+          # Binary packages aren't available for 3.13 on Android yet
           - backend: android
+            python-version: "3.13-dev"
+          # Support package isn't available for 3.13 on Linux
+          - backend: "linux-flatpak"
+            python-version: "3.13-dev"
+          # Support package isn't available for 3.13 on Window
+          - backend: "windows-VisualStudio"
+            python-version: "3.13-dev"
+          - backend: "windows-app"
             python-version: "3.13-dev"
 
     steps:

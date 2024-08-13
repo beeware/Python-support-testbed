@@ -19,11 +19,13 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
-    # "cryptography; python_version < '3.13'",
-    # "lru_dict; python_version < '3.13'",
-    # "pillow; python_version < '3.13'",
-    # "numpy; python_version < '3.13'",
-    # "pandas; python_version < '3.13'",
+    # Numpy/pandas aren't available on 3.13.
+    # Binary wheels on iOS all need to be updated for the new sysconfig platform tag.
+    "cryptography; platform_system != 'iOS'",
+    "lru_dict; platform_system != 'iOS'",
+    "pillow; platform_system != 'iOS'",
+    "numpy; python_version < '3.13' and platform_system != 'iOS'",
+    "pandas; python_version < '3.13' and platform_system != 'iOS'",
 ]
 test_requires = [
     "pytest",
@@ -93,7 +95,7 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
-# support_package = "../Python-Apple-support/dist/Python-3.10-iOS-support.custom.tar.gz"
+# support_package = "../Python-Apple-support/dist/Python-3.13-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
 
 [tool.briefcase.app.testbed.android]
@@ -102,7 +104,7 @@ requires = [
     "tzdata",
 ]
 
-# support_package = "../Python-Android-support/dist/Python-3.10-Android-support.custom.zip"
+# support_package = "../Python-Android-support/dist/Python-3.13-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
 
 [tool.isort]

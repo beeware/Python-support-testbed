@@ -106,9 +106,7 @@ jobs:
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
         exclude:
-          # Binary packages aren't available for 3.12+ on Android yet
-          - backend: android
-            python-version: "3.12"
+          # Binary packages aren't available for 3.13+ on Android yet
           - backend: android
             python-version: "3.13-dev"
 

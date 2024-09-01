@@ -3,11 +3,39 @@
 ###########################################################################
 import os
 import sys
+from importlib.metadata import PackageNotFoundError, metadata
 from pathlib import Path
 
 import pytest
 
 
+def xfail_if_not_installed(package_name):
+    """A test decorator that xfails a test if the named package isn't installed.
+    The third-party tests are dependant on packages being built. During pre-release some
+    packages won't be compilable. So - the pyproject.toml installs third party packages
+    with some conditional gating.
+
+    This decorator checks for app metadata (which is an indicator that the package has
+    been installed). If the metadata exists, the test is executed; if it isn't we XFAIL
+    the test because it *can't* pass.
+    """
+
+    def _xfail_if_not_installed(fn):
+        def _testfunc(*args, **kwargs):
+            try:
+                metadata(package_name)
+            except PackageNotFoundError:
+                pytest.xfail(f"{package_name} is not installed")
+
+            # Actually run the test
+            fn(*args, **kwargs)
+
+        return _testfunc
+
+    return _xfail_if_not_installed
+
+
+@xfail_if_not_installed("pillow")
 def test_module_paths():
     "Third party binary modules have meaningful __file__ attributes"
     import PIL
@@ -22,6 +50,7 @@ def test_module_paths():
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="cffi not available on windows")
+@xfail_if_not_installed("cffi")
 def test_cffi():
     "CFFI can be used as an alternative FFI interface"
     from cffi import FFI
@@ -32,6 +61,7 @@ def test_cffi():
     assert lib.strlen(ffi.new("char[]", b"hello world")) == 11
 
 
+@xfail_if_not_installed("cryptography")
 def test_cryptography():
     "The cryptography module can be used"
     # Cryptography is a common binary library that uses cffi and OpenSSL internally
@@ -87,6 +117,7 @@ def test_cryptography():
     assert "www.android.com" == domain
 
 
+@xfail_if_not_installed("lru-dict")
 def test_lru_dict():
     "The LRUDict binary module can be used"
     # lru-dict is the simplest possible example of a third-party module.
@@ -107,6 +138,7 @@ def test_lru_dict():
         assert lru_dict[f"item_{i}"] == i
 
 
+@xfail_if_not_installed("pillow")
 def test_pillow():
     "Pillow can be used to load images"
     # Pillow is a module that has dependencies on other libraries (libjpeg, libft2)
@@ -122,6 +154,7 @@ def test_pillow():
         image.close()
 
 
+@xfail_if_not_installed("numpy")
 def test_numpy():
     "Numpy Arrays can be created"
     from numpy import array
@@ -130,6 +163,7 @@ def test_numpy():
     assert [4, 7] == (array([1, 2]) + array([3, 5])).tolist()
 
 
+@xfail_if_not_installed("pandas")
 def test_pandas():
     "Pandas DataFrames can be created"
     from pandas import DataFrame, __version__

@@ -19,13 +19,14 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
+    # Provide a source of binary wheels that aren't provided on PyPI.
+    "--find-links", "./wheels",
+    "cryptography",
+    "lru_dict",
+    "pillow",
     # Numpy/pandas aren't available on 3.13.
-    # Binary wheels on iOS all need to be updated for the new sysconfig platform tag.
-    "cryptography; platform_system != 'iOS'",
-    "lru_dict; platform_system != 'iOS'",
-    "pillow; platform_system != 'iOS'",
-    "numpy; python_version < '3.13' and platform_system != 'iOS'",
-    "pandas; python_version < '3.13' and platform_system != 'iOS'",
+    "numpy; python_version < '3.13'",
+    "pandas; python_version < '3.13'",
 ]
 test_requires = [
     "pytest",
@@ -33,8 +34,6 @@ test_requires = [
 
 [tool.briefcase.app.testbed.macOS]
 requires = [
-    # Provide a source of binary wheels that aren't provided on PyPI.
-    "--find-links", "./wheels",
     "rubicon-objc",
     "std-nslog",
 ]

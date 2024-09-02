@@ -19,11 +19,12 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
-    "cryptography",
-    "lru_dict",
-    "pillow",
-    "numpy",
-    "pandas",
+    # Binary wheels on iOS all need to be updated for the new sysconfig platform tag.
+    "cryptography; platform_system != 'iOS'",
+    "lru_dict; platform_system != 'iOS'",
+    "pillow; platform_system != 'iOS'",
+    "numpy; platform_system != 'iOS'",
+    "pandas; platform_system != 'iOS'",
 ]
 test_requires = [
     "pytest",

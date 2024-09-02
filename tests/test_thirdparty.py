@@ -11,10 +11,9 @@ import pytest
 
 def xfail_if_not_installed(package_name):
     """A test decorator that xfails a test if the named package isn't installed.
-
     The third-party tests are dependant on packages being built. During pre-release some
     packages won't be compilable. So - the pyproject.toml installs third party packages
-    with a version conditional gate.
+    with some conditional gating.
 
     This decorator checks for app metadata (which is an indicator that the package has
     been installed). If the metadata exists, the test is executed; if it isn't we XFAIL

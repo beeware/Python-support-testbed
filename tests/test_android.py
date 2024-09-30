@@ -11,9 +11,7 @@ if not hasattr(sys, "getandroidapilevel"):
 
 def test_ctypes():
     "The FFI module has been compiled, and ctypes works on Java objects"
-    from rubicon.java import JavaClass
-
-    URL = JavaClass("java/net/URL")
+    from java.net import URL
 
     sample_url = URL("https://beeware.org/contributing")
 

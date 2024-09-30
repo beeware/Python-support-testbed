@@ -1,19 +1,11 @@
 ######################################################################
 # Android App configuration
 #######################################################################
-from rubicon.java import JavaClass, JavaInterface
-
-# The Android cookiecutter template creates an app whose main Activity is
-# called `MainActivity`. The activity assumes that we will store a reference
-# to an implementation/subclass of `IPythonApp` in it.
-MainActivity = JavaClass("org/beeware/android/MainActivity")
-
-# The `IPythonApp` interface in Java allows Python code to
-# run on Android activity lifecycle hooks such as `onCreate()`.
-IPythonApp = JavaInterface("org/beeware/android/IPythonApp")
+from java import dynamic_proxy
+from org.beeware.android import IPythonApp, MainActivity
 
 
-class PythonApp(IPythonApp):
+class PythonApp(dynamic_proxy(IPythonApp)):
     def __init__(self, app):
         super().__init__()
         self._impl = app

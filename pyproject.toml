@@ -22,8 +22,9 @@ requires = [
     "cryptography",
     "lru_dict",
     "pillow",
-    "numpy",
-    "pandas",
+    # Numpy/pandas aren't available for iOS on 3.13+.
+    "numpy; python_version < '3.13' or platform_system != 'iOS'",
+    "pandas; python_version < '3.13' or platform_system != 'iOS'",
 ]
 test_requires = [
     "pytest",

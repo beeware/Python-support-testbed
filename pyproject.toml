@@ -22,9 +22,8 @@ requires = [
     "cryptography",
     "lru_dict",
     "pillow",
-    # Numpy/pandas aren't available on 3.13.
-    "numpy; python_version < '3.13'",
-    "pandas; python_version < '3.13'",
+    "numpy",
+    "pandas",
 ]
 test_requires = [
     "pytest",

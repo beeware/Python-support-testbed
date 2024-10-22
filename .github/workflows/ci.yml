@@ -45,7 +45,7 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13-dev" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
         include:
           - runs-on: ubuntu-latest
           - pre-command:
@@ -106,22 +106,14 @@ jobs:
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
         exclude:
-          # Cryptography isn't available for 3.11+ on Android yet
-          - backend: android
-            python-version: "3.11"
-          - backend: android
-            python-version: "3.12"
-          # Binary packages aren't available for 3.13 on Android yet
-          - backend: android
-            python-version: "3.13-dev"
           # Support package isn't available for 3.13 on Linux
           - backend: "linux-flatpak"
-            python-version: "3.13-dev"
+            python-version: "3.13"
           # Support package isn't available for 3.13 on Window
           - backend: "windows-VisualStudio"
-            python-version: "3.13-dev"
+            python-version: "3.13"
           - backend: "windows-app"
-            python-version: "3.13-dev"
+            python-version: "3.13"
 
     steps:
     - name: Checkout
@@ -134,6 +126,7 @@ jobs:
       if: matrix.python-version != 'system'
       with:
         python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
 
     - name: Install Dependencies
       run: ${{ matrix.pre-command }}

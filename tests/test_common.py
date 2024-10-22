@@ -106,6 +106,7 @@ def test_stdlib_modules():
 
     # Modules that do not exist on Android
     if hasattr(sys, "getandroidapilevel"):
+        all_modules.remove("_multiprocessing")
         all_modules.remove("grp")
 
     # Modules that do not exist on iOS

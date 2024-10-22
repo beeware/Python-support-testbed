@@ -106,6 +106,9 @@ jobs:
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
         exclude:
+          # numpy and pandas aren't available for 3.13 on iOS
+          - backend: "iOS"
+            python-version: "3.13"
           # Support package isn't available for 3.13 on Linux
           - backend: "linux-flatpak"
             python-version: "3.13"

@@ -77,7 +77,8 @@ flatpak_sdk = "org.gnome.Sdk"
 
 [tool.briefcase.app.testbed.windows]
 requires = [
-    "pythonnet>=3.0.0rc6",
+    # Python.net isn't avaialble for 3.13 yet.
+    "pythonnet>=3.0.0rc6; python_version < '3.13'",
     # Windows doesn't provide the zoneinfo TZ database; use the Python provided one
     "tzdata",
 ]

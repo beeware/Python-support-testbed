@@ -6,10 +6,13 @@ import sys
 
 import pytest
 
+from .test_thirdparty import xfail_if_not_installed
+
 if sys.platform != "win32":
     pytest.skip("Skipping Windows-only tests", allow_module_level=True)
 
 
+@xfail_if_not_installed("pythonnet")
 def test_pythonnet():
     "Python.net integration works as expected"
     # Set up CLR

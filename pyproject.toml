@@ -22,9 +22,9 @@ requires = [
     "cryptography",
     "lru_dict",
     "pillow",
-    # Numpy/pandas aren't available for iOS on 3.13+.
-    "numpy; python_version < '3.13' or platform_system != 'iOS'",
-    "pandas; python_version < '3.13' or platform_system != 'iOS'",
+    # Numpy/pandas aren't available for iOS on 3.13+, or at all on 3.14.
+    "numpy; python_version < '3.13' or (platform_system != 'iOS' and python_version < '3.14')",
+    "pandas; python_version < '3.13' or (platform_system != 'iOS' and python_version < '3.14')",
 ]
 test_requires = [
     "pytest",
@@ -37,7 +37,7 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
-# support_package = "../Python-Apple-support/dist/Python-3.13-macOS-support.custom.tar.gz"
+# support_package = "../Python-Apple-support/dist/Python-3.14-macOS-support.custom.tar.gz"
 
 [tool.briefcase.app.testbed.macOS.app]
 # template = "../../templates/briefcase-macOS-app-template"
@@ -77,8 +77,8 @@ flatpak_sdk = "org.gnome.Sdk"
 
 [tool.briefcase.app.testbed.windows]
 requires = [
-    # Python.net isn't avaialble for 3.13 yet.
-    "pythonnet>=3.0.0rc6; python_version < '3.13'",
+    # Python.net isn't avaialble for 3.14 yet.
+    "pythonnet>=3.0.0rc6; python_version < '3.14'",
     # Windows doesn't provide the zoneinfo TZ database; use the Python provided one
     "tzdata",
 ]
@@ -95,7 +95,7 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
-# support_package = "../Python-Apple-support/dist/Python-3.13-iOS-support.custom.tar.gz"
+# support_package = "../Python-Apple-support/dist/Python-3.14-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
 
 [tool.briefcase.app.testbed.android]
@@ -110,7 +110,7 @@ build_gradle_dependencies = [
     "com.google.android.material:material:1.11.0",
 ]
 
-# support_package = "../Python-Android-support/dist/Python-3.13-Android-support.custom.zip"
+# support_package = "../Python-Android-support/dist/Python-3.14-Android-support.custom.zip"
 # template = "../../templates/briefcase-Android-gradle-template"
 
 [tool.isort]

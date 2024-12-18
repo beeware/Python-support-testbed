@@ -110,8 +110,7 @@ build_gradle_dependencies = [
     "com.google.android.material:material:1.11.0",
 ]
 
-# support_package = "../Python-Android-support/dist/Python-3.14-Android-support.custom.zip"
-# template = "../../templates/briefcase-Android-gradle-template"
+# template = "../../templates/briefcase-android-gradle-template"
 
 [tool.isort]
 profile = "black"

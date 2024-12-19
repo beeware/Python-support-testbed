@@ -20,9 +20,9 @@ test_sources = ["tests"]
 
 requires = [
     # Skip binary dependencies on mobile for Python 3.14
-    "cryptography; not (platform_system == 'iOS' or platform_system == 'Android') or python_version < '3.14')",
-    "lru_dict; not (platform_system == 'iOS' or platform_system == 'Android') or python_version < '3.14')",
-    "pillow; not (platform_system == 'iOS' or platform_system == 'Android') or python_version < '3.14')",
+    "cryptography; (platform_system != 'iOS' and platform_system != 'Android') or python_version < '3.14'",
+    "lru_dict; (platform_system != 'iOS' and platform_system != 'Android') or python_version < '3.14'",
+    "pillow; (platform_system != 'iOS' and platform_system != 'Android') or python_version < '3.14'",
     # Numpy/pandas aren't available for iOS on 3.13+, or at all on 3.14.
     "numpy; python_version < '3.13' or (platform_system != 'iOS' and python_version < '3.14')",
     "pandas; python_version < '3.13' or (platform_system != 'iOS' and python_version < '3.14')",

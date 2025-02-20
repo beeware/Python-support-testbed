@@ -35,10 +35,13 @@ requires = [
         or (platform_system == 'iOS' and python_version < '3.14') \
         or (platform_system == 'Android' and python_version < '3.14')""",
     # pyspamum has 3.13 wheels on iOS and Android; and no wheels on Windows
+    # On Linux, we need to restrict the test to Python3.13+, because Android reports
+    # as "Linux" on Python3.12 and earlier.
     """pyspamsum; \
-        (platform_system != 'iOS' and platform_system != 'Android' and platform_system != "Windows" and python_version < '3.14') \
+        (platform_system == 'Darwin' and python_version < '3.14') \
         or (platform_system == 'iOS' and python_version == '3.13') \
-        or (platform_system == 'Android' and python_version == '3.13')""",
+        or (platform_system == 'Android' and python_version == '3.13') \
+        or (platform_system == 'Linux' and python_version == '3.13')""",
     # Numpy not available on iOS for 3.13+, or all on 3.14.
     """numpy; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \

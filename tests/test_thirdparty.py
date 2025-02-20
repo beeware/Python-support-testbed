@@ -117,6 +117,22 @@ def test_cryptography():
     assert "www.android.com" == domain
 
 
+@xfail_if_not_installed("pyspamsum")
+def test_pyspamsum():
+    "The PySpamSum binary module can be used"
+    # spamsum is a binary module, with iOS/Android binary wheels published on
+    # PyPI.
+    import spamsum
+
+    assert (
+        spamsum.spamsum(
+            "I am the very model of a modern Major-General, "
+            "I've information animal and vegetable and mineral"
+        )
+        == "3:kEvyc/sFIKwYclQY4MKLFE4Igu0uLzIKygn:kE6Ai3KQ/MKOgDKZn"
+    )
+
+
 @xfail_if_not_installed("lru-dict")
 def test_lru_dict():
     "The LRUDict binary module can be used"

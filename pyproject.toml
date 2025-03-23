@@ -77,7 +77,8 @@ requires = [
 [tool.briefcase.app.testbed.linux]
 requires=[
     'pycairo',
-    'pygobject',
+    # Must be pinned to support Debian 12.
+    'pygobject==3.50.0',
 ]
 
 [tool.briefcase.app.testbed.linux.system.debian]

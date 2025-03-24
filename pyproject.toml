@@ -99,7 +99,7 @@ system_runtime_requires = [
 
 [tool.briefcase.app.testbed.linux.flatpak]
 flatpak_runtime = "org.gnome.Platform"
-flatpak_runtime_version = "45"
+flatpak_runtime_version = "47"
 flatpak_sdk = "org.gnome.Sdk"
 
 # template = "../../templates/briefcase-linux-flatpak-template"

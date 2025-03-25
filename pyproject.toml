@@ -19,12 +19,8 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
-    # Android can't process .pth files (see chaquo/chaquopy#1338). This also
-    # means we can only test Linux on Python3.13+, because Android reports as
-    # "Linux" on Python3.12 and earlier.
-    """x-pth-tester; \
-        (platform_system != 'Linux' and platform_system != 'Android') \
-        or (platform_system == 'Linux' and python_version >= '3.13')""",
+    "x-pth-tester",
+
     # Cryptography provides an ABI3 wheel for all desktop platforms, but requires cffi which doesn't.
     """cryptography; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \

@@ -7,8 +7,6 @@ import sys
 
 import pytest
 
-from .test_thirdparty import xfail_if_not_installed
-
 
 def test_bootstrap_modules():
     "All the bootstrap modules are importable"
@@ -448,7 +446,6 @@ def test_zoneinfo():
     assert str(dt) == "2022-05-04 13:40:42+08:00"
 
 
-@xfail_if_not_installed("x-pth-tester")
 def test_pth_handling():
     ".pth files installed by a package are processed"
     import pth_tester

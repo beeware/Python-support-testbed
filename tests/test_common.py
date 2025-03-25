@@ -453,3 +453,20 @@ def test_pth_handling():
     # The pth_tester module should be "initialized" as a result of
     # processing the .pth file created when the package is installed.
     assert pth_tester.initialized
+
+    # When the .pth file is processed, the full standard library should be
+    # available. Check if the initialization process could import socket.
+    if sys.platform == "android" or hasattr(sys, "getandroidapilevel"):
+        # Android is known to have an issue with .pth/sys.path ordering that
+        # causes this test to fail. For now, accept this as an XFAIL; if it
+        # passes, fail as an indicator that the bug has been resolved, and we
+        # can simplify the test.
+        try:
+            assert pth_tester.has_socket
+            pytest.fail("Android .pth handling bug has been resolved.")
+        except AssertionError:
+            pytest.xfail(
+                "On Android, .pth files are processed before sys.path is finalized."
+            )
+    else:
+        assert pth_tester.has_socket

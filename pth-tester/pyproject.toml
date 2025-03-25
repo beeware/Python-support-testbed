@@ -4,5 +4,5 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "x-pth-tester"
-version = "1.0.0"
+version = "2025.3.26"
 classifiers = ["Private :: Do Not Upload"]

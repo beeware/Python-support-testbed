@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools==78.0.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x-pth-tester"
+version = "1.0.0"
+classifiers = ["Private :: Do Not Upload"]

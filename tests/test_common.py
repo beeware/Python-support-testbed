@@ -7,6 +7,8 @@ import sys
 
 import pytest
 
+from .test_thirdparty import xfail_if_not_installed
+
 
 def test_bootstrap_modules():
     "All the bootstrap modules are importable"
@@ -444,3 +446,13 @@ def test_zoneinfo():
 
     dt = datetime(2022, 5, 4, 13, 40, 42, tzinfo=ZoneInfo("Australia/Perth"))
     assert str(dt) == "2022-05-04 13:40:42+08:00"
+
+
+@xfail_if_not_installed("x-pth-tester")
+def test_pth_handling():
+    ".pth files installed by a package are processed"
+    import pth_tester
+
+    # The pth_tester module should be "initialized" as a result of
+    # processing the .pth file created when the package is installed.
+    assert pth_tester.initialized

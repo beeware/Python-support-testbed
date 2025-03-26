@@ -19,6 +19,8 @@ sources = ["src/testbed"]
 test_sources = ["tests"]
 
 requires = [
+    "x-pth-tester",
+
     # Cryptography provides an ABI3 wheel for all desktop platforms, but requires cffi which doesn't.
     """cryptography; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \

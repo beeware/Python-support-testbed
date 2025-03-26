@@ -1,6 +1,7 @@
 __pycache__/
 .idea
 *.dist-info/
+*.egg-info/
 build/
 logs/
 .DS_Store

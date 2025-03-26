@@ -461,10 +461,9 @@ def test_pth_handling():
         # causes this test to fail. For now, accept this as an XFAIL; if it
         # passes, fail as an indicator that the bug has been resolved, and we
         # can simplify the test.
-        try:
-            assert pth_tester.has_socket
+        if pth_tester.has_socket:
             pytest.fail("Android .pth handling bug has been resolved.")
-        except AssertionError:
+        else:
             pytest.xfail(
                 "On Android, .pth files are processed before sys.path is finalized."
             )

@@ -44,12 +44,12 @@ requires = [
         or (platform_system == 'iOS' and python_version == '3.13') \
         or (platform_system == 'Android' and python_version == '3.13') \
         or (platform_system == 'Linux' and python_version == '3.13')""",
-    # Numpy not available on iOS for 3.13+, or all on 3.14.
+    # Numpy not available on 3.14+.
     """numpy; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version < '3.13') \
+        or (platform_system == 'iOS' and python_version < '3.14') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # Pandas not available on iOS for 3.13+, or all on 3.14.
+    # Pandas not available on iOS for 3.13+, or all on 3.14+.
     """pandas; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
         or (platform_system == 'iOS' and python_version < '3.13') \

@@ -456,16 +456,4 @@ def test_pth_handling():
 
     # When the .pth file is processed, the full standard library should be
     # available. Check if the initialization process could import socket.
-    if sys.platform == "android" or hasattr(sys, "getandroidapilevel"):
-        # Android is known to have an issue with .pth/sys.path ordering that
-        # causes this test to fail. For now, accept this as an XFAIL; if it
-        # passes, fail as an indicator that the bug has been resolved, and we
-        # can simplify the test.
-        if pth_tester.has_socket:
-            pytest.fail("Android .pth handling bug has been resolved.")
-        else:
-            pytest.xfail(
-                "On Android, .pth files are processed before sys.path is finalized."
-            )
-    else:
-        assert pth_tester.has_socket
+    assert pth_tester.has_socket

@@ -33,78 +33,79 @@ jobs:
       fail-fast: false
       matrix:
         backend:
-          - "macOS-Xcode"
-          - "macOS-app"
-          # AppImage builds (a) take over an hour, because the need to compile Numpy and
-          # Pandas from source, and (b) are only here as a light validation that
-          # Standalone Python is working. A Flatpak build also validates this, but
-          # completes in minutes.
-          # - "linux-appimage"
-          - "linux-flatpak"
-          - "windows-VisualStudio"
-          - "windows-app"
+          # - "macOS-Xcode"
+          # - "macOS-app"
+          # # AppImage builds (a) take over an hour, because the need to compile Numpy and
+          # # Pandas from source, and (b) are only here as a light validation that
+          # # Standalone Python is working. A Flatpak build also validates this, but
+          # # completes in minutes.
+          # # - "linux-appimage"
+          # - "linux-flatpak"
+          # - "windows-VisualStudio"
+          # - "windows-app"
           - "iOS"
-          - "android"
-        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+          # - "android"
+        # python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+        python-version: [ "3.13" ]
         include:
-          - runs-on: ubuntu-latest
-          - pre-command:
-          - briefcase-target:
-          - briefcase-run-args:
+          # - runs-on: ubuntu-latest
+          # - pre-command:
+          # - briefcase-target:
+          # - briefcase-run-args:
 
-          - backend: macOS-Xcode
-            runs-on: macos-latest
-            briefcase-target: "macOS Xcode"
+          # - backend: macOS-Xcode
+          #   runs-on: macos-latest
+          #   briefcase-target: "macOS Xcode"
 
-          - backend: macOS-app
-            runs-on: macos-latest
-            briefcase-target: "macOS app"
+          # - backend: macOS-app
+          #   runs-on: macos-latest
+          #   briefcase-target: "macOS app"
 
-          - backend: linux-system
-            runs-on: ubuntu-latest
-            python-version: "system"
-            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0"
-            briefcase-target: "linux system"
-
-          # - backend: linux-appimage
+          # - backend: linux-system
           #   runs-on: ubuntu-latest
-          #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends libfuse2 libthai-dev libegl1"
-          #   briefcase-target: "linux appimage"
+          #   python-version: "system"
+          #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0"
+          #   briefcase-target: "linux system"
 
-          - backend: linux-flatpak
-            runs-on: ubuntu-latest
-            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends flatpak flatpak-builder elfutils"
-            briefcase-target: "linux flatpak"
+          # # - backend: linux-appimage
+          # #   runs-on: ubuntu-latest
+          # #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends libfuse2 libthai-dev libegl1"
+          # #   briefcase-target: "linux appimage"
 
-          - backend: windows-VisualStudio
-            runs-on: windows-latest
-            briefcase-target: "windows VisualStudio"
+          # - backend: linux-flatpak
+          #   runs-on: ubuntu-latest
+          #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends flatpak flatpak-builder elfutils"
+          #   briefcase-target: "linux flatpak"
 
-          - backend: windows-app
-            runs-on: windows-latest
-            briefcase-target: "windows app"
+          # - backend: windows-VisualStudio
+          #   runs-on: windows-latest
+          #   briefcase-target: "windows VisualStudio"
+
+          # - backend: windows-app
+          #   runs-on: windows-latest
+          #   briefcase-target: "windows app"
 
           - backend: iOS
             runs-on: macos-latest
             briefcase-target: "iOS"
             briefcase-run-args: ' -d "iPhone SE (3rd generation)"'
 
-          - backend: android
-            runs-on: ubuntu-latest
-            briefcase-target: "android"
-            briefcase-run-args: >
-              --device '{"avd":"beePhone"}'
-              --Xemulator=-no-window
-              --Xemulator=-no-snapshot
-              --Xemulator=-no-audio
-              --Xemulator=-no-boot-anim
-              --shutdown-on-exit
-            pre-command: |
-              # allow access to KVM to run the emulator
-              echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
-                | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-              sudo udevadm control --reload-rules
-              sudo udevadm trigger --name-match=kvm
+          # - backend: android
+          #   runs-on: ubuntu-latest
+          #   briefcase-target: "android"
+          #   briefcase-run-args: >
+          #     --device '{"avd":"beePhone"}'
+          #     --Xemulator=-no-window
+          #     --Xemulator=-no-snapshot
+          #     --Xemulator=-no-audio
+          #     --Xemulator=-no-boot-anim
+          #     --shutdown-on-exit
+          #   pre-command: |
+          #     # allow access to KVM to run the emulator
+          #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+          #       | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          #     sudo udevadm control --reload-rules
+          #     sudo udevadm trigger --name-match=kvm
 
     steps:
     - name: Checkout
@@ -118,6 +119,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
+
+    - name: Device set
+      run: xcrun simctl list -j
+
+    - name: Testing Device set
+      run: xcrun simctl --set testing list -j
 
     - name: Install Dependencies
       run: ${{ matrix.pre-command }}

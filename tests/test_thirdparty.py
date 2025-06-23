@@ -190,7 +190,7 @@ def test_pandas():
     )
 
     # Pandas 1.5 changed the API for to_csv()
-    if tuple(int(v) for v in __version__.split(".")) < (1, 5):
+    if tuple(int(v) for v in __version__.split(".")[:2]) < (1, 5):
         kwargs = dict(line_terminator="\n")
     else:
         kwargs = dict(lineterminator="\n")

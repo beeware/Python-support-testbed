@@ -31,8 +31,8 @@ requires = [
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
         or (platform_system == 'iOS' and python_version < '3.14') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # pillow not available anywhere on 3.14.
-    """pillow; \
+    # pillow not available anywhere on 3.14. 11.3.0 wheel is known bad on iOS.
+    """pillow != 11.3.0; \
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
         or (platform_system == 'iOS' and python_version < '3.14') \
         or (platform_system == 'Android' and python_version < '3.14')""",

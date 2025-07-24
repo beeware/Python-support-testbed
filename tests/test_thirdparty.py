@@ -11,7 +11,8 @@ import pytest
 
 def xfail_if_not_installed(package_name):
     """A test decorator that xfails a test if the named package isn't installed.
-    The third-party tests are dependant on packages being built. During pre-release some
+
+    The third-party tests are dependent on packages being built. During pre-release some
     packages won't be compilable. So - the pyproject.toml installs third party packages
     with some conditional gating.
 
@@ -191,10 +192,10 @@ def test_pandas():
 
     # Pandas 1.5 changed the API for to_csv()
     if tuple(int(v) for v in __version__.split(".")[:2]) < (1, 5):
-        kwargs = dict(line_terminator="\n")
+        kwargs = {"line_terminator": "\n"}
     else:
-        kwargs = dict(lineterminator="\n")
+        kwargs = {"lineterminator": "\n"}
 
-    assert (
-        ",Letter,Number\n" "0,alpha,1\n" "1,bravo,2\n" "2,charlie,3\n"
-    ) == df.to_csv(**kwargs)
+    assert (",Letter,Number\n0,alpha,1\n1,bravo,2\n2,charlie,3\n") == df.to_csv(
+        **kwargs
+    )

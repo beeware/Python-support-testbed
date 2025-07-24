@@ -81,6 +81,6 @@ def test_stdlib_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert (
-        len(missing) == 0
-    ), f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    assert len(missing) == 0, (
+        f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    )

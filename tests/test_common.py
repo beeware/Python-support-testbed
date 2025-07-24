@@ -51,9 +51,9 @@ def test_bootstrap_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert (
-        len(missing) == 0
-    ), f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}"
+    assert len(missing) == 0, (
+        f"Missing bootstrap modules: {', '.join(str(m) for m in missing)}"
+    )
 
 
 def test_stdlib_modules():
@@ -139,9 +139,9 @@ def test_stdlib_modules():
         except ModuleNotFoundError:
             missing.append(module)
 
-    assert (
-        len(missing) == 0
-    ), f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    assert len(missing) == 0, (
+        f"Missing stdlib modules: {', '.join(str(m) for m in missing)}"
+    )
 
 
 def test_sysconfig_data():
@@ -284,9 +284,9 @@ def test_hashlib():
             digest_args = []
         msg = getattr(hashlib, algorithm)()
         msg.update(b"Hello world")
-        assert (
-            msg.hexdigest(*digest_args) == expected
-        ), f"{algorithm} digest was {msg.hexdigest(*digest_args)}"
+        assert msg.hexdigest(*digest_args) == expected, (
+            f"{algorithm} digest was {msg.hexdigest(*digest_args)}"
+        )
 
 
 def test_sqlite3():

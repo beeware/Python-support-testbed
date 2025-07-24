@@ -32,7 +32,7 @@ def run_tests():
     # macOS, output the log sentinel multiple times to decrease the chance of
     # this happening.
     if sys.platform in {"darwin", "ios"}:
-        for i in range(0, 6):
+        for _ in range(0, 6):
             time.sleep(0.5)
             print(f">>>>>>>>>> EXIT {returncode} <<<<<<<<<<")
     else:

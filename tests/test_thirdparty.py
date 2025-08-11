@@ -115,7 +115,7 @@ def test_cryptography():
 
     cert = x509.load_pem_x509_certificate(cert_pem, default_backend())
     domain = cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)[0].value
-    assert "www.android.com" == domain
+    assert domain == "www.android.com"
 
 
 @xfail_if_not_installed("pyspamsum")
@@ -177,7 +177,7 @@ def test_numpy():
     from numpy import array
 
     # Numpy is the thousand pound gorilla packaging test.
-    assert [4, 7] == (array([1, 2]) + array([3, 5])).tolist()
+    assert (array([1, 2]) + array([3, 5])).tolist() == [4, 7]
 
 
 @xfail_if_not_installed("pandas")
@@ -196,6 +196,6 @@ def test_pandas():
     else:
         kwargs = {"lineterminator": "\n"}
 
-    assert (",Letter,Number\n0,alpha,1\n1,bravo,2\n2,charlie,3\n") == df.to_csv(
-        **kwargs
+    assert df.to_csv(**kwargs) == (
+        ",Letter,Number\n0,alpha,1\n1,bravo,2\n2,charlie,3\n"
     )

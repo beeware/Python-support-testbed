@@ -92,7 +92,7 @@ jobs:
           - backend: iOS
             runs-on: macos-latest
             briefcase-target: "iOS"
-            briefcase-run-args: ' -d "iPhone SE (3rd generation)"'
+            briefcase-run-args: ' -d "iPhone SE (3rd generation):iOS 18.5"'
 
           - backend: android
             runs-on: ubuntu-latest
@@ -123,6 +123,16 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
+
+    - name: Prepare macOS
+      # GitHub recommends explicitly selecting the desired Xcode version:
+      # https://github.com/actions/runner-images/issues/12541#issuecomment-3083850140
+      # This became a necessity as a result of
+      # https://github.com/actions/runner-images/issues/12541 and
+      # https://github.com/actions/runner-images/issues/12751.
+      if: matrix.runs-on == 'macos-latest'
+      run: |
+        sudo xcode-select --switch /Applications/Xcode_16.5.app
 
     - name: Install Dependencies
       run: ${{ matrix.pre-command }}

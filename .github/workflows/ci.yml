@@ -132,7 +132,7 @@ jobs:
       # https://github.com/actions/runner-images/issues/12751.
       if: matrix.runs-on == 'macos-latest'
       run: |
-        sudo xcode-select --switch /Applications/Xcode_16.5.app
+        sudo xcode-select --switch /Applications/Xcode_16.4.app
 
     - name: Install Dependencies
       run: ${{ matrix.pre-command }}

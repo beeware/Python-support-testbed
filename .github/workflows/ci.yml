@@ -92,7 +92,7 @@ jobs:
           - backend: iOS
             runs-on: macos-latest
             briefcase-target: "iOS"
-            briefcase-run-args: ' -d "iPhone SE (3rd generation)::iOS 18.5"'
+            briefcase-run-args: ' -d "iPhone 16e::iOS 18.5"'
 
           - backend: android
             runs-on: ubuntu-latest

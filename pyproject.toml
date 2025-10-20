@@ -31,10 +31,10 @@ requires = [
         (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
         or (platform_system == 'iOS' and python_version < '3.14') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # pillow not available anywhere on 3.14. 11.3.0 wheel is known bad on iOS.
-    """pillow != 11.3.0; \
-        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version < '3.14') \
+    # pillow not available anywhere on 3.15, or on Android for 3.14+.
+    """pillow; \
+        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.15') \
+        or (platform_system == 'iOS' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
     # pyspamum has 3.13 wheels on iOS and Android; and no wheels on Windows
     # On Linux, we need to restrict the test to Python3.13+, because Android reports

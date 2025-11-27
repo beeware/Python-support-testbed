@@ -21,33 +21,27 @@ test_sources = ["tests"]
 requires = [
     "x-pth-tester",
 
-    # Cryptography provides an ABI3 wheel for all desktop platforms, but requires cffi which doesn't.
+    # Cryptography provides an ABI3 wheel for all desktop platforms and iOS.
     """cryptography; \
-        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version < '3.14') \
+        (platform_system != 'Android' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # lru_dict not available anywhere on 3.14
-    """lru_dict; \
-        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version < '3.14') \
-        or (platform_system == 'Android' and python_version < '3.14')""",
+    # lru_dict available everywhere
+    "lru_dict; python_version < '3.15'",
     # pillow not available anywhere on 3.15, or on Android for 3.14+.
     """pillow; \
-        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.15') \
-        or (platform_system == 'iOS' and python_version < '3.15') \
+        (platform_system != 'Android' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
     # pyspamum has 3.13 wheels on iOS and Android; and no wheels on Windows
     # On Linux, we need to restrict the test to Python3.13+, because Android reports
     # as "Linux" on Python3.12 and earlier.
     """pyspamsum; \
-        (platform_system == 'Darwin' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version == '3.13') \
-        or (platform_system == 'Android' and python_version == '3.13') \
-        or (platform_system == 'Linux' and python_version == '3.13')""",
-    # Numpy not available on 3.14+.
+        (platform_system == 'Darwin' and python_version < '3.15') \
+        or (platform_system == 'iOS' and python_version >= '3.13' and python_version < '3.15') \
+        or (platform_system == 'Android' and python_version < '3.15') \
+        or (platform_system == 'Linux' and python_version >= '3.13')""",
+    # Numpy not available on 3.14 on Android.
     """numpy; \
-        (platform_system != 'iOS' and platform_system != 'Android' and python_version < '3.14') \
-        or (platform_system == 'iOS' and python_version < '3.14') \
+        (platform_system != 'Android' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
     # Pandas not available on iOS for 3.13+, or all on 3.14+.
     """pandas; \
@@ -126,6 +120,7 @@ requires = [
     "rubicon-objc",
     "std-nslog",
 ]
+min_os_version = "17.0"
 # support_package = "../Python-Apple-support/dist/Python-3.14-iOS-support.custom.tar.gz"
 # template = "../../templates/briefcase-iOS-Xcode-template"
 

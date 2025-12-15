@@ -68,7 +68,7 @@ jobs:
           - backend: linux-system
             runs-on: ubuntu-latest
             python-version: "system"
-            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0"
+            pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0 libcanberra-gtk3-module"
             briefcase-target: "linux system"
 
           # - backend: linux-appimage

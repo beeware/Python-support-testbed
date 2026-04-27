@@ -17,3 +17,8 @@ updates:
     directory: "/"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
+
+  - package-ecosystem: "pip"
+    directory: "/pth-tester"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"

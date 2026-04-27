@@ -5,3 +5,4 @@ __pycache__/
 build/
 logs/
 .DS_Store
+.vscode

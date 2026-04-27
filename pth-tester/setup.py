@@ -9,10 +9,10 @@ from setuptools.command.install import install
 class install_with_pth(install):
     """Custom install command to install a .pth file.
 
-    This hack is necessary because there's no standard way to install behavior
-    on startup (and it's debatable if there should be one). This hack (ab)uses
-    the `extra_path` behavior in Setuptools to install a `.pth` file with
-    implicit behavior on startup.
+    This hack is necessary because there's no standard way to install behavior on
+    startup (and it's debatable if there should be one). This hack (ab)uses the
+    `extra_path` behavior in Setuptools to install a `.pth` file with implicit behavior
+    on startup.
 
     The original source strongly recommends against using this behavior.
     """

@@ -22,3 +22,8 @@ updates:
     directory: "/pth-tester"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
+
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"

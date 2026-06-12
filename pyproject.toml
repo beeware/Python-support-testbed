@@ -3,7 +3,8 @@ project_name = "Testbed"
 bundle = "org.beeware"
 version = "0.0.1"
 url = "https://beeware.org"
-license.file = "LICENSE"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 author = 'Russell Keith-Magee'
 author_email = "russell@beeware.org"
 
@@ -59,7 +60,7 @@ requirement_installer_args = [
 requires = [
     # Provide a source of binary wheels that aren't provided on PyPI.
     "rubicon-objc",
-    "std-nslog",
+    "std-nslog~=1.0.3",
 ]
 # support_package = "../Python-Apple-support/dist/Python-3.14-macOS-support.custom.tar.gz"
 
@@ -118,7 +119,7 @@ requires = [
 [tool.briefcase.app.testbed.iOS]
 requires = [
     "rubicon-objc",
-    "std-nslog",
+    "std-nslog~=1.0.3",
 ]
 min_os_version = "17.0"
 # support_package = "../Python-Apple-support/dist/Python-3.14-iOS-support.custom.tar.gz"

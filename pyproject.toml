@@ -60,7 +60,7 @@ requirement_installer_args = [
 requires = [
     # Provide a source of binary wheels that aren't provided on PyPI.
     "rubicon-objc",
-    "std-nslog~=1.0.3",
+    "std-nslog~=2.0.0",
 ]
 # support_package = "../Python-Apple-support/dist/Python-3.14-macOS-support.custom.tar.gz"
 
@@ -119,7 +119,6 @@ requires = [
 [tool.briefcase.app.testbed.iOS]
 requires = [
     "rubicon-objc",
-    "std-nslog~=1.0.3",
 ]
 min_os_version = "17.0"
 # support_package = "../Python-Apple-support/dist/Python-3.14-iOS-support.custom.tar.gz"

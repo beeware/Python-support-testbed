@@ -23,11 +23,14 @@ requires = [
     "x-pth-tester",
 
     # Cryptography provides an ABI3 wheel for all desktop platforms and iOS.
-    """cryptography; \
+    # Crptography 49 doesn't publish x86-64 or universal macOS wheels.
+    """cryptography < 49.0; \
         (platform_system != 'Android' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
     # lru_dict available everywhere
-    "lru_dict; python_version < '3.15'",
+    """lru_dict; \
+        (platform_system != 'Android' and python_version < '3.15') \
+        or (platform_system == 'Android' and python_version < '3.14')""",
     # pillow not available anywhere on 3.15, or on Android for 3.14+.
     """pillow; \
         (platform_system != 'Android' and python_version < '3.15') \

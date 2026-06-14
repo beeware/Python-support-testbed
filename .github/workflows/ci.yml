@@ -45,11 +45,7 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: [ "3.10", "3.11", "3.12", "3.13", "3.14" ]
-        exclude:
-          # Android doesn't have 3.14 support packages yet
-          - python-version: "3.14"
-            backend: "android"
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
         include:
           - runs-on: ubuntu-latest
@@ -112,44 +108,44 @@ jobs:
               sudo udevadm trigger --name-match=kvm
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6.0.3
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+        with:
+          fetch-depth: 0
 
-    - name: Set up Python
-      uses: actions/setup-python@v6.2.0
-      if: matrix.python-version != 'system'
-      with:
-        python-version: ${{ matrix.python-version }}
-        allow-prereleases: true
+      - name: Set up Python
+        uses: actions/setup-python@v6.2.0
+        if: matrix.python-version != 'system'
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
-    - name: Prepare macOS
-      # GitHub recommends explicitly selecting the desired Xcode version:
-      # https://github.com/actions/runner-images/issues/12541#issuecomment-3083850140
-      # This became a necessity as a result of
-      # https://github.com/actions/runner-images/issues/12541 and
-      # https://github.com/actions/runner-images/issues/12751.
-      if: matrix.runs-on == 'macos-latest'
-      run: |
-        sudo xcode-select --switch /Applications/Xcode_16.4.app
+      - name: Prepare macOS
+        # GitHub recommends explicitly selecting the desired Xcode version:
+        # https://github.com/actions/runner-images/issues/12541#issuecomment-3083850140
+        # This became a necessity as a result of
+        # https://github.com/actions/runner-images/issues/12541 and
+        # https://github.com/actions/runner-images/issues/12751.
+        if: matrix.runs-on == 'macos-latest'
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_16.4.app
 
-    - name: Install Dependencies
-      run: ${{ matrix.pre-command }}
+      - name: Install Dependencies
+        run: ${{ matrix.pre-command }}
 
-    - name: Install Briefcase
-      uses: beeware/.github/.github/actions/install-briefcase@main
+      - name: Install Briefcase
+        uses: beeware/.github/.github/actions/install-briefcase@main
 
-    - name: Test App
-      timeout-minutes: 15
-      run: briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-run-args }}
+      - name: Test App
+        timeout-minutes: 15
+        run: briefcase run ${{ matrix.briefcase-target }} --test ${{ matrix.briefcase-run-args }}
 
-    - name: Package
-      run: briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign
+      - name: Package
+        run: briefcase package ${{ matrix.briefcase-target }} --update --adhoc-sign
 
-    - name: Upload Logs
-      uses: actions/upload-artifact@v7.0.1
-      if: failure()
-      with:
-        name: build-failure-logs-${{ matrix.backend }}-${{ matrix.python-version }}
-        path: logs/*
+      - name: Upload Logs
+        uses: actions/upload-artifact@v7.0.1
+        if: failure()
+        with:
+          name: build-failure-logs-${{ matrix.backend }}-${{ matrix.python-version }}
+          path: logs/*

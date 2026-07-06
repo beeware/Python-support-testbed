@@ -54,11 +54,11 @@ jobs:
           - briefcase-run-args:
 
           - backend: macOS-Xcode
-            runs-on: macos-latest
+            runs-on: macos-15
             briefcase-target: "macOS Xcode"
 
           - backend: macOS-app
-            runs-on: macos-latest
+            runs-on: macos-15
             briefcase-target: "macOS app"
 
           - backend: linux-system
@@ -86,7 +86,7 @@ jobs:
             briefcase-target: "windows app"
 
           - backend: iOS
-            runs-on: macos-latest
+            runs-on: macos-15
             briefcase-target: "iOS"
             briefcase-run-args: ' -d "iPhone 16e::iOS 18.5"'
 
@@ -109,12 +109,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@v6.3.0
         if: matrix.python-version != 'system'
         with:
           python-version: ${{ matrix.python-version }}
@@ -126,7 +126,7 @@ jobs:
         # This became a necessity as a result of
         # https://github.com/actions/runner-images/issues/12541 and
         # https://github.com/actions/runner-images/issues/12751.
-        if: matrix.runs-on == 'macos-latest'
+        if: matrix.runs-on == 'macos-15'
         run: |
           sudo xcode-select --switch /Applications/Xcode_16.4.app
 

@@ -98,7 +98,7 @@ jobs:
             runs-on: ubuntu-latest
             briefcase-target: "android"
             briefcase-run-args: >
-              --device '{"avd":"beePhone"}'
+              --device '{"avd":"beePhone","device_type":"pixel"}'
               --Xemulator=-no-window
               --Xemulator=-no-snapshot
               --Xemulator=-no-audio

@@ -65,7 +65,7 @@ def test_posix_subprocess():
     "Subprocesses can be invoked"
     import subprocess
 
-    result = subprocess.run(["uname", "-s"], capture_output=True)
+    result = subprocess.run(["uname", "-s"], capture_output=True, check=True)
     assert result.stdout == b"Darwin\n"
 
 

@@ -160,8 +160,6 @@ extend-select = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-# Ignores needed to pass the Ruff 0.16 update.
-# Module names match platform names (iOS, macOS), which don't conform to
-# standard module naming conventions.
+# PEP8 module naming conventions aren't appropriate
 "tests/test_iOS.py" = ["N999"]
 "tests/test_macOS.py" = ["N999", "PLW1510"]

@@ -266,13 +266,17 @@ def test_hashlib():
         ),
         "shake_128": (
             40,
-            "c1301df86b1dc67ce3b5a067dc9b47affca8caa08f41d1efa614cea56f526897"
-            "d61ded8ab01421f1",
+            (
+                "c1301df86b1dc67ce3b5a067dc9b47affca8caa08f41d1efa614cea56f526897"
+                "d61ded8ab01421f1"
+            ),
         ),
         "shake_256": (
             40,
-            "20740b4c7a7997765e9cc254b44a1589e60849be0fe70b68a6fb732415edaa13"
-            "3bb6eb7825ffa531",
+            (
+                "20740b4c7a7997765e9cc254b44a1589e60849be0fe70b68a6fb732415edaa13"
+                "3bb6eb7825ffa531"
+            ),
         ),
     }
     for algorithm, details in algorithms.items():

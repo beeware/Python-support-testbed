@@ -158,3 +158,8 @@ extend-select = [
     # use improvement.
     # "SIM",    # flake8-simplify
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# PEP8 module naming conventions aren't appropriate
+"tests/test_iOS.py" = ["N999"]
+"tests/test_macOS.py" = ["N999"]

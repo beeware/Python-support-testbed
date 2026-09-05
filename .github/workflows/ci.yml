@@ -45,53 +45,53 @@ jobs:
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
 
         include:
-          - runs-on: ubuntu-latest
+          - runs-on: ubuntu-24.04
           - pre-command:
           - briefcase-target:
           - briefcase-run-args:
 
           - backend: macOS-Xcode
-            runs-on: macos-15
+            runs-on: macos-26
             briefcase-target: "macOS Xcode"
 
           - backend: macOS-app
-            runs-on: macos-15
+            runs-on: macos-26
             briefcase-target: "macOS app"
 
           - backend: linux-system
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
             python-version: "system"
             pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends python3-dev python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0 libcanberra-gtk3-module"
             briefcase-target: "linux system"
 
           # - backend: linux-appimage
-          #   runs-on: ubuntu-latest
+          #   runs-on: ubuntu-24.04
           #   pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends libfuse2 libthai-dev libegl1"
           #   briefcase-target: "linux appimage"
 
           - backend: linux-flatpak
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
             pre-command: "sudo apt update -y && sudo apt install -y --no-install-recommends flatpak flatpak-builder elfutils"
             briefcase-target: "linux flatpak"
 
           - backend: windows-VisualStudio
-            runs-on: windows-latest
+            runs-on: windows-2025
             briefcase-target: "windows VisualStudio"
 
           - backend: windows-app
-            runs-on: windows-latest
+            runs-on: windows-2025
             briefcase-target: "windows app"
 
           - backend: iOS
-            runs-on: macos-15
+            runs-on: macos-26
             briefcase-target: "iOS"
-            briefcase-run-args: ' -d "iPhone 16e::iOS 18.5"'
+            briefcase-run-args: ' -d "iPhone 17e::iOS 26.5"'
 
           - backend: android
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
             briefcase-target: "android"
             briefcase-run-args: >
               --device '{"avd":"beePhone","device_type":"pixel"}'
@@ -106,6 +106,9 @@ jobs:
                 | sudo tee /etc/udev/rules.d/99-kvm4all.rules
               sudo udevadm control --reload-rules
               sudo udevadm trigger --name-match=kvm
+        exclude:
+          - backend: android
+            python-version: "3.15"
 
     steps:
       - name: Checkout
@@ -126,7 +129,7 @@ jobs:
         # This became a necessity as a result of
         # https://github.com/actions/runner-images/issues/12541 and
         # https://github.com/actions/runner-images/issues/12751.
-        if: matrix.runs-on == 'macos-15'
+        if: matrix.runs-on == 'macos-26'
         run: |
           sudo xcode-select --switch /Applications/Xcode_16.4.app
 

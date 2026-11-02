@@ -82,7 +82,9 @@ def test_stdlib_modules():
         "_queue",
         "_random",
         "_socket",
+        "_statistics",
         "_struct",
+        "_typing",
         "array",
         "binascii",
         "cmath",
@@ -98,11 +100,7 @@ def test_stdlib_modules():
     ]
 
     # Modules added in 3.8
-    all_modules.extend(["_statistics"])
-
-    # Modules added in 3.11
-    if sys.version_info >= (3, 11):
-        all_modules.extend(["_typing"])
+    all_modules.extend([])
 
     # Modules that do not exist on Android
     if hasattr(sys, "getandroidapilevel"):

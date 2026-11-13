@@ -41,13 +41,15 @@ jobs:
         backend:
           - "macOS-Xcode"
           - "macOS-app"
+          # Linux system builds require the system Python, so they can't be included
+          # in the build matrix. It's included as a once-off explicit inclusion.
+          # - "linux-system"
           # AppImage builds (a) take over an hour, because the need to compile Numpy and
           # Pandas from source, and (b) are only here as a light validation that
           # Standalone Python is working. A Flatpak build also validates this, but
           # completes in minutes.
           # - "linux-appimage"
           - "linux-flatpak"
-          - "linux-system"
           - "windows-VisualStudio"
           - "windows-app"
           - "iOS"

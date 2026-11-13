@@ -134,27 +134,6 @@ def test_pyspamsum():
     )
 
 
-@xfail_if_not_installed("lru-dict")
-def test_lru_dict():
-    "The LRUDict binary module can be used"
-    # lru-dict is the simplest possible example of a third-party module.
-    # It is pure C, built using distutils, with no dependencies.
-    from lru import LRU
-
-    lru_dict = LRU(5)
-
-    # Add 10 items
-    for i in range(10):
-        lru_dict[f"item_{i}"] = i
-
-    # Items 0-4 have been evicted
-    for i in range(5):
-        assert f"item_{i}" not in lru_dict
-    # Items 5-9 are still there
-    for i in range(5, 10):
-        assert lru_dict[f"item_{i}"] == i
-
-
 @xfail_if_not_installed("pillow")
 def test_pillow():
     "Pillow can be used to load images"

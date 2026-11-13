@@ -27,21 +27,17 @@ requires = [
     """cryptography < 49.0; \
         (platform_system != 'Android' and python_version < '3.15') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # lru_dict available everywhere
-    """lru_dict; \
-        (platform_system != 'Android' and python_version < '3.15') \
-        or (platform_system == 'Android' and python_version < '3.14')""",
-    # pillow not available anywhere on 3.15, or on Android for 3.14+.
+    # pillow not available anywhere on 3.16, or on Android for 3.14+.
     """pillow; \
-        (platform_system != 'Android' and python_version < '3.15') \
+        (platform_system != 'Android' and python_version < '3.16') \
         or (platform_system == 'Android' and python_version < '3.14')""",
-    # pyspamum has 3.13 wheels on iOS and Android; and no wheels on Windows
+    # pyspamsum has 3.15 wheels on iOS and Android; and no wheels on Windows
     # On Linux, we need to restrict the test to Python3.13+, because Android reports
     # as "Linux" on Python3.12 and earlier.
     """pyspamsum; \
-        (platform_system == 'Darwin' and python_version < '3.15') \
-        or (platform_system == 'iOS' and python_version >= '3.13' and python_version < '3.15') \
-        or (platform_system == 'Android' and python_version < '3.15') \
+        (platform_system == 'Darwin' and python_version < '3.16') \
+        or (platform_system == 'iOS' and python_version >= '3.13' and python_version < '3.16') \
+        or (platform_system == 'Android' and python_version < '3.16') \
         or (platform_system == 'Linux' and python_version >= '3.13')""",
     # Numpy not available on 3.14 on Android.
     """numpy; \
@@ -63,7 +59,7 @@ requirement_installer_args = [
 requires = [
     # Provide a source of binary wheels that aren't provided on PyPI.
     "rubicon-objc",
-    "std-nslog~=2.0.0",
+    "std-nslog~=2.0.0; python_version < '3.14'",
 ]
 # support_package = "../Python-Apple-support/dist/Python-3.14-macOS-support.custom.tar.gz"
 

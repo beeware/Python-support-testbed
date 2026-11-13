@@ -47,11 +47,12 @@ jobs:
           # completes in minutes.
           # - "linux-appimage"
           - "linux-flatpak"
+          - "linux-system"
           - "windows-VisualStudio"
           - "windows-app"
           - "iOS"
           - "android"
-        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
+        python-version: [ "3.11", "3.12", "3.13", "3.14", "3.15", "3.16" ]
 
         include:
           - runs-on: ubuntu-24.04
@@ -94,13 +95,11 @@ jobs:
           - backend: iOS
             runs-on: macos-26
             briefcase-target: "iOS"
-            briefcase-run-args: ' -d "iPhone 17e::iOS 26.5"'
 
           - backend: android
             runs-on: ubuntu-24.04
             briefcase-target: "android"
             briefcase-run-args: >
-              --device '{"avd":"beePhone","device_type":"pixel"}'
               --Xemulator=-no-window
               --Xemulator=-no-snapshot
               --Xemulator=-no-audio
@@ -114,7 +113,7 @@ jobs:
               sudo udevadm trigger --name-match=kvm
         exclude:
           - backend: android
-            python-version: "3.15"
+            python-version: "3.16"
 
     steps:
       - name: Checkout
